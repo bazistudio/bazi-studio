@@ -5,6 +5,9 @@
 import Hero from "../components/Hero";
 import ProjectCard from "../components/ProjectCard";
 
+
+
+
 export default function Home() {
   
 
@@ -35,6 +38,7 @@ export default function Home() {
     
     <div>
       <Hero />
+      
 
 {/* Home Page Intro Section */}
       <section className="max-w-7xl mx-auto px-4 py-20 text-center">

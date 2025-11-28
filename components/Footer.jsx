@@ -5,20 +5,20 @@ import { Facebook, Instagram, Twitter, Github } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-white/20 backdrop-blur-md text-[#463261] py-12 mt-24">
-      <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-8 items-start">
+    <footer className="bg-[#1003E8] backdrop-blur-md text-white py-12 mt-24">
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
 
-        {/* Left Section: About / Remote Work */}
-        <div className="space-y-4">
-          <h2 className="text-2xl font-poppins font-bold text-[#1003E8]">BaziStudio</h2>
+        {/* Left Section */}
+        <div className="space-y-4 text-left md:text-left">
+          <h2 className="text-xl font-poppins font-semibold text-white">BaziStudio</h2>
           <p className="font-inter text-base">
             We work remotely, delivering modern web & mobile projects for clients globally.
           </p>
         </div>
 
-        {/* Center Section: Portfolio Links */}
-        <div className="space-y-4 text-center">
-          <h3 className="text-xl font-poppins font-semibold text-[#F2730A]">Portfolio Links</h3>
+        {/* Center Section */}
+        <div className="space-y-4 text-center md:text-center">
+          <h2 className="text-xl font-poppins font-semibold text-white">Portfolio Links</h2>
           <div className="flex justify-center flex-wrap gap-4 font-inter">
             <Link href="https://www.behance.net" target="_blank" className="hover:text-[#F2730A]">Behance</Link>
             <Link href="https://www.fiverr.com" target="_blank" className="hover:text-[#F2730A]">Fiverr</Link>
@@ -27,19 +27,20 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Right Section: Social Media */}
-        <div className="space-y-4 text-right">
-          <h3 className="text-xl font-poppins font-semibold text-[#F2730A]">Follow Us</h3>
-          <div className="flex justify-end space-x-6">
-            <a href="https://facebook.com" target="_blank"><Facebook size={24} className="hover:text-[#1003E8]" /></a>
-            <a href="https://instagram.com" target="_blank"><Instagram size={24} className="hover:text-[#1003E8]" /></a>
-            <a href="https://twitter.com" target="_blank"><Twitter size={24} className="hover:text-[#1003E8]" /></a>
-            <a href="https://github.com" target="_blank"><Github size={24} className="hover:text-[#1003E8]" /></a>
+        {/* Right Section */}
+        <div className="space-y-4 text-left md:text-right">
+          <h2 className="text-xl font-poppins font-semibold text-white">Follow Us</h2>
+          <div className="flex justify-start md:justify-end space-x-6">
+            <a href="https://facebook.com" target="_blank"><Facebook size={24} className="hover:text-[#F2730A]" /></a>
+            <a href="https://instagram.com" target="_blank"><Instagram size={24} className="hover:text-[#F2730A]" /></a>
+            <a href="https://twitter.com" target="_blank"><Twitter size={24} className="hover:text-[#F2730A]" /></a>
+            <a href="https://github.com" target="_blank"><Github size={24} className="hover:text-[#F2730A]" /></a>
           </div>
         </div>
+
       </div>
 
-      <div className="mt-12 text-center text-sm font-inter text-[#463261]">
+      <div className="mt-12 text-center text-sm font-inter text-white">
         © {new Date().getFullYear()} BaziStudio. All rights reserved.
       </div>
     </footer>
