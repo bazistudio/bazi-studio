@@ -17,14 +17,30 @@ export default function Contact() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      alert("Thank you for your message! We will get back to you soon.");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-      setIsSubmitting(false);
-    }, 2000);
+
+    try {
+      const res = await fetch("/api/send-message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Message Sent Successfully!");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        alert(data.error || "Something went wrong.");
+      }
+    } catch (error) {
+      alert("Server error! Please try again.");
+    }
+
+    setIsSubmitting(false);
   };
 
   const contactMethods = [
@@ -57,7 +73,7 @@ export default function Contact() {
         </h1>
         <p className="text-lg md:text-xl font-inter text-[#463261]">
           Have a project or question? Reach out via email, phone, WhatsApp, or
-          the form below. Let's connect!
+          the form below. Let,s connect!
         </p>
       </section>
 
