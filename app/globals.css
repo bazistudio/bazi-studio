@@ -24,3 +24,42 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+@layer base {
+  :root {
+    /* Light theme colors */
+    --background: 255 255 255;
+    --foreground: 17 24 39;
+    --primary: 16 3 232;
+    --secondary: 72 50 97;
+    --accent: 242 115 10;
+  }
+
+  .dark {
+    /* Dark theme colors */
+    --background: 10 10 10;
+    --foreground: 237 237 237;
+    --primary: 66 103 245;
+    --secondary: 161 132 209;
+    --accent: 255 149 64;
+  }
+
+  body {
+    @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer components {
+  /* Theme-aware components */
+  .card {
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200;
+  }
+}

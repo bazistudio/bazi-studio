@@ -1,25 +1,36 @@
 // app/layout.js
 import './globals.css';
-import { Inter, Poppins } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const poppins = Poppins({ subsets: ['latin'], weight: '700', variable: '--font-poppins' });
+// Simple font loading
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
 
 export const metadata = {
   title: 'BaziStudio',
-  description: 'Where design meets code | Figma + Code Services',
+  description: 'Modern web development studio',
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
-      <body className="bg-[#F9FAFB] text-[#111827]">
+    <html lang="en" className={inter.variable}>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body className="font-sans bg-white text-gray-900">
+        {/* Simple Navbar */}
         <Navbar />
-        <main className="min-h-screen">
+        
+        {/* Main content with proper spacing */}
+        <main className="min-h-screen pt-16 px-4 md:px-6">
           {children}
         </main>
+        
+        {/* Simple Footer */}
         <Footer />
       </body>
     </html>
