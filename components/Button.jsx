@@ -22,7 +22,7 @@ export default function Button({ children, onClick, size = 'md', className = '' 
         ${className}
         transform transition-all duration-150
         hover:bg-[#F2730A]
-        hover:text-[#DCF6DA]
+        hover:text-[#000000]
         active:scale-95
       `}
     >
