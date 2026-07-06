@@ -2,7 +2,7 @@
 "use client";
 
 import Hero from "../components/Hero";
-import ProjectCard from "../components/ProjectCard";
+import ProjectCard from "../components/portfolio/ProjectCard";
 import {
   Sparkles,
   Zap,
