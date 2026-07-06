@@ -1,65 +1,77 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
 @layer base {
   :root {
-    /* Light theme colors */
-    --background: 255 255 255;
-    --foreground: 17 24 39;
-    --primary: 16 3 232;
-    --secondary: 72 50 97;
-    --accent: 242 115 10;
+    /* Futuristic Light Mode Tokens */
+    --background: #ffffff;
+    --foreground: #020817;
+    
+    --primary: #1003E8; /* Deep vibrant blue */
+    --primary-foreground: #ffffff;
+    
+    --secondary: #463261; /* Deep purple */
+    --accent: #F2730A; /* Vibrant orange */
+    
+    --muted: #f1f5f9;
+    --border: #e2e8f0;
+    
+    --radius: 0.75rem;
   }
 
   .dark {
-    /* Dark theme colors */
-    --background: 10 10 10;
-    --foreground: 237 237 237;
-    --primary: 66 103 245;
-    --secondary: 161 132 209;
-    --accent: 255 149 64;
+    /* Futuristic Dark Mode Tokens - AI Lab aesthetic */
+    --background: #02040A; /* Extremely dark blue/black */
+    --foreground: #f8fafc;
+    
+    --primary: #0A84FF; /* Electric blue */
+    --primary-foreground: #ffffff;
+    
+    --secondary: #6366f1; /* Indigo */
+    --accent: #ff6b00; /* Neon orange */
+    
+    --muted: #0f172a;
+    --border: #1e293b;
   }
 
   body {
-    @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
 @layer components {
-  /* Theme-aware components */
-  .card {
-    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm;
+  /* Glassmorphism primitives for futuristic UI */
+  .glass-panel {
+    @apply bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-xl;
   }
   
-  .btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white;
+  .glass-card {
+    @apply bg-white/50 dark:bg-[#0f172a]/50 backdrop-blur-lg border border-white/30 dark:border-slate-800 rounded-2xl;
   }
-  
-  .btn-secondary {
-    @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200;
+
+  /* Base button transitions */
+  .btn-base {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background;
   }
 }
