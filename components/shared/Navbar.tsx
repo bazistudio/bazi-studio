@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Button from "./Button";
+import Button from "@/components/ui/Button";
 import { Menu, X, Sparkles, ChevronDown, User, Search, Sun, Moon } from "lucide-react";
 
 export default function Navbar() {

@@ -1,10 +1,27 @@
 export default function Loading() {
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-background">
-      <div className="flex flex-col items-center gap-4">
-        <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent shadow-[0_0_15px_var(--color-primary)]"></div>
-        <p className="text-sm font-medium text-muted-foreground animate-pulse">Loading BaziStudio...</p>
+    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col items-center justify-center">
+      {/* Background ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
+
+      <div className="relative z-10 flex flex-col items-center">
+        {/* Futuristic Grid Scanner Animation */}
+        <div className="w-32 h-32 relative mb-8">
+          <div className="absolute inset-0 border border-primary/20 rounded-xl overflow-hidden glass-panel">
+            <div className="w-full h-[2px] bg-primary/60 shadow-[0_0_8px_rgba(16,3,232,0.8)] animate-[scan_2s_ease-in-out_infinite]" />
+          </div>
+          <div className="absolute inset-0 border border-primary/40 rounded-xl rotate-45 scale-75 opacity-50" />
+        </div>
+
+        <h2 className="text-xl font-bold tracking-[0.2em] text-foreground/80 uppercase animate-pulse">
+          Initializing Lab
+        </h2>
+        <div className="mt-4 flex gap-1">
+          <div className="w-1.5 h-1.5 bg-primary rounded-full animate-[bounce_1s_infinite_100ms]" />
+          <div className="w-1.5 h-1.5 bg-primary rounded-full animate-[bounce_1s_infinite_200ms]" />
+          <div className="w-1.5 h-1.5 bg-primary rounded-full animate-[bounce_1s_infinite_300ms]" />
+        </div>
       </div>
     </div>
-  );
+  )
 }
