@@ -3,6 +3,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import { Menu, X, Sparkles, ChevronDown, User, Search, Sun, Moon } from "lucide-react";
 
@@ -10,6 +11,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const router = useRouter();
 
   interface NavLink {
     name: string;
@@ -126,7 +128,7 @@ export default function Navbar() {
 
             {/* Login Button */}
             <Button
-              onClick={() => alert("Login clicked!")}
+              onClick={() => router.push("/login")}
               variant="outline"
               size="md"
               icon={<User size={18} />}
@@ -149,7 +151,7 @@ export default function Navbar() {
           {/* Mobile Menu Toggle */}
           <div className="flex lg:hidden items-center gap-3">
             <Button
-              onClick={() => alert("Login clicked!")}
+              onClick={() => router.push("/login")}
               size="sm"
               variant="outline"
               className="border-white text-white"
@@ -202,7 +204,7 @@ export default function Navbar() {
               {/* Mobile Actions */}
               <div className="pt-6 mt-6 border-t border-white/20 grid grid-cols-2 gap-3">
                 <Button
-                  onClick={() => { setIsOpen(false); alert("Login clicked!"); }}
+                  onClick={() => { setIsOpen(false); router.push("/login"); }}
                   variant="outline"
                   className="border-white text-white"
                 >
