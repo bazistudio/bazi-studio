@@ -11,7 +11,13 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
-  const navLinks = [
+  interface NavLink {
+    name: string;
+    href: string;
+    submenu?: { name: string; href: string; }[];
+  }
+
+  const navLinks: NavLink[] = [
     { name: "Home", href: "/" },
     
     // { 

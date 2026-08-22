@@ -21,7 +21,7 @@ export default function ProjectForm({ initialData }: { initialData?: Partial<Pro
   
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(ProjectSchema),
-    defaultValues: initialData || {
+    defaultValues: {
       title: "",
       slug: "",
       status: "draft",
@@ -43,6 +43,7 @@ export default function ProjectForm({ initialData }: { initialData?: Partial<Pro
       is_personal_project: false,
       impact_summary: "",
       featured_reason: "",
+      ...initialData,
     }
   })
 
