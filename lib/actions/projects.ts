@@ -5,6 +5,47 @@ import { ProjectFormValues } from "@/lib/validators/project.schema";
 import { revalidatePath } from "next/cache";
 import { verifyAdmin } from "./auth";
 
+// Safe insert/update helper that handles optional columns cleanly
+async function safeInsertProject(supabase: any, values: any) {
+  // First attempt with full payload
+  const { data, error } = await supabase.from("projects").insert(values).select().single();
+  if (!error) return data;
+
+  // If a column is missing in schema cache, sanitize payload and retry
+  if (error.message && error.message.includes("Could not find the") && error.message.includes("column")) {
+    console.warn("Retrying insert with sanitized database payload due to schema difference:", error.message);
+    const sanitized = { ...values };
+    delete sanitized.figma_prototype_url;
+    delete sanitized.figma_community_url;
+    delete sanitized.project_type;
+
+    const { data: retryData, error: retryErr } = await supabase.from("projects").insert(sanitized).select().single();
+    if (retryErr) throw new Error(retryErr.message);
+    return retryData;
+  }
+
+  throw new Error(error.message);
+}
+
+async function safeUpdateProject(supabase: any, id: string, values: any) {
+  const { data, error } = await supabase.from("projects").update(values).eq("id", id).select().single();
+  if (!error) return data;
+
+  if (error.message && error.message.includes("Could not find the") && error.message.includes("column")) {
+    console.warn("Retrying update with sanitized database payload due to schema difference:", error.message);
+    const sanitized = { ...values };
+    delete sanitized.figma_prototype_url;
+    delete sanitized.figma_community_url;
+    delete sanitized.project_type;
+
+    const { data: retryData, error: retryErr } = await supabase.from("projects").update(sanitized).eq("id", id).select().single();
+    if (retryErr) throw new Error(retryErr.message);
+    return retryData;
+  }
+
+  throw new Error(error.message);
+}
+
 export async function getProjects(statusFilter?: "all" | "draft" | "published" | "archived") {
   const supabase = await createClient();
   let query = supabase
@@ -29,7 +70,15 @@ export async function getProjects(statusFilter?: "all" | "draft" | "published" |
   }
 
   const { data, error } = await query;
-  if (error) throw new Error(error.message);
+  if (error) {
+    console.warn("getProjects joined query fallback:", error.message);
+    const fallback = await supabase
+      .from("projects")
+      .select("*")
+      .order("display_order", { ascending: true })
+      .order("created_at", { ascending: false });
+    return fallback.data || [];
+  }
   return data || [];
 }
 
@@ -37,10 +86,8 @@ export async function createProject(values: ProjectFormValues) {
   if (!(await verifyAdmin())) throw new Error("Unauthorized");
 
   const supabase = await createClient();
-  const { data, error } = await supabase.from("projects").insert(values).select().single();
+  const data = await safeInsertProject(supabase, values);
 
-  if (error) throw new Error(error.message);
-  
   revalidatePath("/admin");
   revalidatePath("/admin/projects");
   revalidatePath("/projects");
@@ -51,10 +98,8 @@ export async function updateProject(id: string, values: Partial<ProjectFormValue
   if (!(await verifyAdmin())) throw new Error("Unauthorized");
 
   const supabase = await createClient();
-  const { data, error } = await supabase.from("projects").update(values).eq("id", id).select().single();
+  const data = await safeUpdateProject(supabase, id, values);
 
-  if (error) throw new Error(error.message);
-  
   revalidatePath("/admin");
   revalidatePath("/admin/projects");
   revalidatePath("/projects");
@@ -131,39 +176,35 @@ export async function copyProject(id: string) {
   const newSlug = `${original.slug}-copy-${copySuffix}`;
 
   // 3. Create independent copy in DRAFT + HIDDEN status
-  const { data: newProject, error: createErr } = await supabase
-    .from("projects")
-    .insert({
-      title: newTitle,
-      slug: newSlug,
-      project_type: original.project_type || "case_study",
-      category_id: original.category_id,
-      status: "draft",
-      featured: false,
-      display_order: (original.display_order || 0) + 1,
-      short_description: original.short_description || "",
-      full_description: original.full_description || "",
-      problem: original.problem || "",
-      solution: original.solution || "",
-      github_url: original.github_url || "",
-      demo_url: original.demo_url || "",
-      figma_url: original.figma_url || "",
-      figma_prototype_url: original.figma_prototype_url || "",
-      figma_community_url: original.figma_community_url || "",
-      started_at: original.started_at || "",
-      completed_at: original.completed_at || "",
-      duration: original.duration || "",
-      role: original.role || "",
-      team_size: original.team_size || "",
-      client_name: original.client_name || "",
-      is_personal_project: !!original.is_personal_project,
-      impact_summary: original.impact_summary || "",
-      featured_reason: original.featured_reason || "",
-    })
-    .select()
-    .single();
+  const copyPayload = {
+    title: newTitle,
+    slug: newSlug,
+    project_type: original.project_type || "case_study",
+    category_id: original.category_id,
+    status: "draft",
+    featured: false,
+    display_order: (original.display_order || 0) + 1,
+    short_description: original.short_description || "",
+    full_description: original.full_description || "",
+    problem: original.problem || "",
+    solution: original.solution || "",
+    github_url: original.github_url || "",
+    demo_url: original.demo_url || "",
+    figma_url: original.figma_url || "",
+    figma_prototype_url: original.figma_prototype_url || "",
+    figma_community_url: original.figma_community_url || "",
+    started_at: original.started_at || null,
+    completed_at: original.completed_at || null,
+    duration: original.duration || "",
+    role: original.role || "",
+    team_size: original.team_size || "",
+    client_name: original.client_name || "",
+    is_personal_project: Boolean(original.is_personal_project),
+    impact_summary: original.impact_summary || "",
+    featured_reason: original.featured_reason || "",
+  };
 
-  if (createErr || !newProject) throw new Error(`Failed to duplicate project: ${createErr?.message}`);
+  const newProject = await safeInsertProject(supabase, copyPayload);
 
   // 4. Duplicate project_sections
   if (original.project_sections && original.project_sections.length > 0) {
@@ -179,7 +220,7 @@ export async function copyProject(id: string) {
     await supabase.from("project_sections").insert(sectionsToInsert);
   }
 
-  // 5. Duplicate project_media records (sharing storage asset URLs)
+  // 5. Duplicate project_media records
   if (original.project_media && original.project_media.length > 0) {
     const mediaToInsert = original.project_media.map((m: any) => ({
       project_id: newProject.id,

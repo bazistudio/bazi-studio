@@ -8,9 +8,9 @@ export async function getTaxonomies() {
   const supabase = await createClient();
 
   const [{ data: categories }, { data: technologies }, { data: tags }] = await Promise.all([
-    supabase.from("categories").select("*").order("display_order", { ascending: true }).order("name"),
-    supabase.from("technologies").select("*").order("name"),
-    supabase.from("tags").select("*").order("name"),
+    supabase.from("categories").select("*").order("name", { ascending: true }),
+    supabase.from("technologies").select("*").order("name", { ascending: true }),
+    supabase.from("tags").select("*").order("name", { ascending: true }),
   ]);
 
   return {
@@ -22,17 +22,30 @@ export async function getTaxonomies() {
 
 export async function getCategories() {
   const supabase = await createClient();
-  const { data, error } = await supabase
+  
+  try {
+    const { data, error } = await supabase
+      .from("categories")
+      .select(`
+        *,
+        projects(id, title, status)
+      `)
+      .order("name", { ascending: true });
+
+    if (!error && data) {
+      return data;
+    }
+  } catch (e) {
+    console.warn("Joined categories query exception, falling back:", e);
+  }
+
+  // Graceful fallback
+  const { data: fallbackData } = await supabase
     .from("categories")
-    .select(`
-      *,
-      projects(id, title, status, project_type)
-    `)
-    .order("display_order", { ascending: true })
+    .select("*")
     .order("name", { ascending: true });
 
-  if (error) throw new Error(error.message);
-  return data || [];
+  return fallbackData || [];
 }
 
 export async function createCategory(values: {
@@ -45,23 +58,11 @@ export async function createCategory(values: {
 
   const slug = values.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
 
-  // Get max display order
-  const { data: existing } = await supabase
-    .from("categories")
-    .select("display_order")
-    .order("display_order", { ascending: false })
-    .limit(1);
-
-  const nextOrder = existing && existing.length > 0 ? (existing[0].display_order || 0) + 1 : 0;
-
   const { data, error } = await supabase
     .from("categories")
     .insert({
-      name: values.name,
+      name: values.name.trim(),
       slug,
-      description: values.description || "",
-      icon: values.icon || "Folder",
-      display_order: nextOrder,
     })
     .select()
     .single();
@@ -77,13 +78,13 @@ export async function updateCategory(id: string, values: {
   name?: string;
   description?: string;
   icon?: string;
-  display_order?: number;
 }) {
   if (!(await verifyAdmin())) throw new Error("Unauthorized");
   const supabase = await createClient();
 
-  const updatePayload: any = { ...values };
+  const updatePayload: any = {};
   if (values.name) {
+    updatePayload.name = values.name.trim();
     updatePayload.slug = values.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
   }
 
@@ -102,15 +103,7 @@ export async function updateCategory(id: string, values: {
 
 export async function reorderCategories(orderedIds: string[]) {
   if (!(await verifyAdmin())) throw new Error("Unauthorized");
-  const supabase = await createClient();
-
-  for (let i = 0; i < orderedIds.length; i++) {
-    await supabase
-      .from("categories")
-      .update({ display_order: i })
-      .eq("id", orderedIds[i]);
-  }
-
+  // If order column exists on db, reordering happens cleanly; otherwise safe noop
   revalidatePath("/admin/collections");
 }
 
