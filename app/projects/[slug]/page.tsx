@@ -2,12 +2,13 @@ import { createClient } from "@/lib/database/server";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
-// Components to be implemented
 import CaseStudyHero from "@/components/portfolio/case-study/CaseStudyHero";
 import ProjectOverview from "@/components/portfolio/case-study/ProjectOverview";
 import ProblemSolution from "@/components/portfolio/case-study/ProblemSolution";
 import SectionRenderer from "@/components/portfolio/case-study/SectionRenderer";
 import MediaGallery from "@/components/portfolio/case-study/MediaGallery";
+import VideoShowcase from "@/components/portfolio/case-study/VideoShowcase";
+import FigmaShowcase from "@/components/portfolio/case-study/FigmaShowcase";
 import BuildTimeline from "@/components/portfolio/case-study/BuildTimeline";
 import ProjectLinks from "@/components/portfolio/case-study/ProjectLinks";
 import RelatedProjects from "@/components/portfolio/case-study/RelatedProjects";
@@ -15,12 +16,13 @@ import ProjectNavigation from "@/components/portfolio/case-study/ProjectNavigati
 
 export const revalidate = 3600; // Cache for 1 hour
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> | { slug: string } }): Promise<Metadata> {
+  const resolvedParams = await params;
   const supabase = await createClient();
   const { data: project } = await supabase
     .from('projects')
     .select('title, short_description, seo_metadata(meta_title, meta_description, og_image_url)')
-    .eq('slug', params.slug)
+    .eq('slug', resolvedParams.slug)
     .single();
 
   if (!project) return { title: "Project Not Found" };
@@ -28,7 +30,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const seo = Array.isArray(project.seo_metadata) ? project.seo_metadata[0] : project.seo_metadata;
   
   return {
-    title: seo?.meta_title || `${project.title} | BaziStudio Case Study`,
+    title: seo?.meta_title || `${project.title} | BaziStudio Portfolio`,
     description: seo?.meta_description || project.short_description,
     openGraph: {
       title: seo?.meta_title || project.title,
@@ -38,7 +40,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function ProjectCaseStudyPage({ params }: { params: { slug: string } }) {
+export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
+  const resolvedParams = await params;
   const supabase = await createClient();
   
   const { data: project, error } = await supabase
@@ -47,14 +50,18 @@ export default async function ProjectCaseStudyPage({ params }: { params: { slug:
       *,
       categories(*),
       project_media(*),
+      project_videos(*),
       project_sections(*),
       build_logs(*),
       seo_metadata(*),
       project_technologies(
         technologies(*)
+      ),
+      project_tags(
+        tags(*)
       )
     `)
-    .eq('slug', params.slug)
+    .eq('slug', resolvedParams.slug)
     .eq('status', 'published')
     .single();
 
@@ -64,7 +71,11 @@ export default async function ProjectCaseStudyPage({ params }: { params: { slug:
 
   // Pre-sort relations
   project.project_sections?.sort((a: any, b: any) => (a.order_index || 0) - (b.order_index || 0));
+  project.project_media?.sort((a: any, b: any) => (a.order_index || 0) - (b.order_index || 0));
+  project.project_videos?.sort((a: any, b: any) => (a.order_index || 0) - (b.order_index || 0));
   project.build_logs?.sort((a: any, b: any) => (a.day_number || 0) - (b.day_number || 0));
+
+  const projectType = project.project_type || "case_study";
   
   return (
     <main className="min-h-screen bg-background text-foreground pb-24 relative overflow-hidden">
@@ -75,18 +86,46 @@ export default async function ProjectCaseStudyPage({ params }: { params: { slug:
       
       <CaseStudyHero project={project} />
       
-      <div className="max-w-4xl mx-auto px-6 space-y-32 mt-32 relative z-10">
-        <ProjectOverview project={project} />
-        <ProblemSolution project={project} />
-        <SectionRenderer sections={project.project_sections || []} />
-        <MediaGallery media={project.project_media || []} />
-        <BuildTimeline logs={project.build_logs || []} />
-        <ProjectLinks project={project} />
+      <div className="max-w-4xl mx-auto px-6 space-y-28 mt-24 relative z-10">
+        {/* Type-Specific / Adaptive Presentation */}
+        {projectType === "figma" ? (
+          <>
+            <FigmaShowcase project={project} />
+            <ProjectOverview project={project} />
+            <VideoShowcase videos={project.project_videos || []} />
+            <MediaGallery media={project.project_media || []} />
+            <ProjectLinks project={project} />
+          </>
+        ) : projectType === "shortlist" ? (
+          <>
+            <ProjectOverview project={project} />
+            <VideoShowcase videos={project.project_videos || []} />
+            <FigmaShowcase project={project} />
+            <MediaGallery media={project.project_media || []} />
+            <ProjectLinks project={project} />
+          </>
+        ) : (
+          /* Default Complete Case Study */
+          <>
+            <ProjectOverview project={project} />
+            <ProblemSolution project={project} />
+            {project.project_sections && project.project_sections.length > 0 && (
+              <SectionRenderer sections={project.project_sections} />
+            )}
+            <VideoShowcase videos={project.project_videos || []} />
+            <FigmaShowcase project={project} />
+            <MediaGallery media={project.project_media || []} />
+            {project.build_logs && project.build_logs.length > 0 && (
+              <BuildTimeline logs={project.build_logs} />
+            )}
+            <ProjectLinks project={project} />
+          </>
+        )}
       </div>
 
       <div className="max-w-7xl mx-auto px-6 mt-32 border-t border-border pt-24">
         <RelatedProjects currentProjectId={project.id} categoryId={project.category_id} />
       </div>
     </main>
-  )
+  );
 }
