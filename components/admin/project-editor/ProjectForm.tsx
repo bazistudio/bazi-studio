@@ -34,6 +34,8 @@ export default function ProjectForm({ initialData }: { initialData?: Partial<Pro
       github_url: "",
       demo_url: "",
       figma_url: "",
+      figma_prototype_url: "",
+      figma_community_url: "",
       started_at: "",
       completed_at: "",
       duration: "",

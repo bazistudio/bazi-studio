@@ -38,15 +38,41 @@ export default function LinksFields({ form }: { form: UseFormReturn<ProjectFormV
 
         <div className="space-y-2">
           <label className="text-sm font-medium flex items-center gap-2">
-            <Figma size={14} /> Figma Design
+            <Figma size={14} /> Figma Project / File
           </label>
           <input 
             type="url" 
             {...register("figma_url")} 
             className="w-full p-2.5 rounded-lg bg-background border border-border focus:border-primary outline-none"
-            placeholder="https://figma.com/..."
+            placeholder="https://figma.com/file/..."
           />
           {errors.figma_url && <p className="text-xs text-destructive">{errors.figma_url.message}</p>}
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium flex items-center gap-2">
+            <Figma size={14} /> Figma Prototype URL
+          </label>
+          <input 
+            type="url" 
+            {...register("figma_prototype_url")} 
+            className="w-full p-2.5 rounded-lg bg-background border border-border focus:border-primary outline-none"
+            placeholder="https://figma.com/proto/..."
+          />
+          {errors.figma_prototype_url && <p className="text-xs text-destructive">{errors.figma_prototype_url.message}</p>}
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium flex items-center gap-2">
+            <Figma size={14} /> Figma Community / Resource
+          </label>
+          <input 
+            type="url" 
+            {...register("figma_community_url")} 
+            className="w-full p-2.5 rounded-lg bg-background border border-border focus:border-primary outline-none"
+            placeholder="https://figma.com/@..."
+          />
+          {errors.figma_community_url && <p className="text-xs text-destructive">{errors.figma_community_url.message}</p>}
         </div>
       </div>
     </div>

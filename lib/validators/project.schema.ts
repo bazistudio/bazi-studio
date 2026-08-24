@@ -16,6 +16,8 @@ export const ProjectSchema = z.object({
   github_url: z.string().url().optional().or(z.literal("")),
   demo_url: z.string().url().optional().or(z.literal("")),
   figma_url: z.string().url().optional().or(z.literal("")),
+  figma_prototype_url: z.string().url().optional().or(z.literal("")),
+  figma_community_url: z.string().url().optional().or(z.literal("")),
   started_at: z.string().optional(),
   completed_at: z.string().optional(),
   duration: z.string().optional(),
