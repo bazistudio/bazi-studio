@@ -54,13 +54,29 @@ export async function uploadMedia(projectId: string, formData: FormData, type: s
     .from("portfolio-media")
     .getPublicUrl(filePath);
 
-  // 4. Create database record
+  // 4. Determine default role: if this is the first image for the project, make it cover
+  let defaultRole = "gallery";
+  if (type === "image") {
+    const { count } = await supabase
+      .from("project_media")
+      .select("id", { count: "exact", head: true })
+      .eq("project_id", projectId)
+      .eq("role", "cover");
+    
+    if (count === 0) {
+      defaultRole = "cover";
+    }
+  }
+
+  // 5. Create database record
   const { data, error } = await supabase
     .from("project_media")
     .insert({
       project_id: projectId,
       type: type,
+      role: defaultRole,
       url: publicUrl,
+      storage_path: filePath,
       file_name: file.name,
       file_size: file.size,
       mime_type: file.type,
@@ -74,6 +90,7 @@ export async function uploadMedia(projectId: string, formData: FormData, type: s
   }
 
   revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath("/projects");
   return data;
 }
 
@@ -89,18 +106,50 @@ export async function getProjectMedia(projectId: string) {
   return data;
 }
 
-export async function deleteMedia(id: string, url: string, projectId: string) {
+export async function setCoverMedia(projectId: string, mediaId: string) {
   if (!(await verifyAdmin())) throw new Error("Unauthorized");
   const supabase = await createClient();
 
-  const basePath = "portfolio-media/";
-  const pathIndex = url.indexOf(basePath);
-  
-  if (pathIndex !== -1) {
-    const filePath = url.substring(pathIndex + basePath.length);
+  // Reset all other media to 'gallery'
+  await supabase
+    .from("project_media")
+    .update({ role: "gallery" })
+    .eq("project_id", projectId)
+    .eq("role", "cover");
+
+  // Set chosen media to 'cover'
+  const { data, error } = await supabase
+    .from("project_media")
+    .update({ role: "cover" })
+    .eq("id", mediaId)
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+
+  revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath("/projects");
+  return data;
+}
+
+export async function deleteMedia(id: string, url: string, projectId: string, storagePath?: string) {
+  if (!(await verifyAdmin())) throw new Error("Unauthorized");
+  const supabase = await createClient();
+
+  // Resolve storage path directly or parse from URL fallback
+  let pathToDelete = storagePath;
+  if (!pathToDelete && url) {
+    const basePath = "portfolio-media/";
+    const pathIndex = url.indexOf(basePath);
+    if (pathIndex !== -1) {
+      pathToDelete = url.substring(pathIndex + basePath.length);
+    }
+  }
+
+  if (pathToDelete) {
     const { error: storageError } = await supabase.storage
       .from("portfolio-media")
-      .remove([filePath]);
+      .remove([pathToDelete]);
       
     if (storageError) console.error("Failed to delete storage file:", storageError.message);
   }
@@ -109,6 +158,7 @@ export async function deleteMedia(id: string, url: string, projectId: string) {
   if (error) throw new Error(error.message);
 
   revalidatePath(`/admin/projects/${projectId}`);
+  revalidatePath("/projects");
 }
 
 export async function updateMediaMetadata(id: string, values: any, projectId: string) {
@@ -125,4 +175,18 @@ export async function updateMediaMetadata(id: string, values: any, projectId: st
   if (error) throw new Error(error.message);
   revalidatePath(`/admin/projects/${projectId}`);
   return data;
+}
+
+export async function reorderMedia(projectId: string, orderedIds: string[]) {
+  if (!(await verifyAdmin())) throw new Error("Unauthorized");
+  const supabase = await createClient();
+
+  for (let i = 0; i < orderedIds.length; i++) {
+    await supabase
+      .from("project_media")
+      .update({ order_index: i })
+      .eq("id", orderedIds[i]);
+  }
+
+  revalidatePath(`/admin/projects/${projectId}`);
 }
