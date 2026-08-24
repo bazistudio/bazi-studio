@@ -20,7 +20,7 @@ export default function ContactSection() {
         
         <a 
           href="mailto:contact@bazistudio.com" 
-          className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-foreground text-background font-semibold rounded-xl hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:shadow-[0_0_30px_rgba(16,3,232,0.3)] hover:-translate-y-1"
+          className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-foreground text-background font-semibold rounded-xl hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1"
         >
           <span>Establish Secure Channel</span>
           <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />

@@ -18,7 +18,7 @@ export default function BuildTimeline({ logs }: { logs: any[] }) {
       <div className="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-primary/30 before:via-border before:to-transparent">
         {logs.map((log) => (
           <div key={log.id} className="relative flex items-start gap-6 group">
-            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-background border-2 border-primary/30 text-primary z-10 shrink-0 shadow-[0_0_15px_rgba(16,3,232,0.2)] group-hover:border-primary transition-colors">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full bg-background border-2 border-primary/30 text-primary z-10 shrink-0 shadow-lg shadow-primary/20 group-hover:border-primary transition-colors">
               <span className="text-xs font-bold">{log.day_number}</span>
             </div>
             

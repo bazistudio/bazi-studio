@@ -155,7 +155,7 @@ export default function Portfolio() {
           </div>
           
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-[#1003E8] via-[#463261] to-[#F2730A] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               My Portfolio
             </span>
           </h1>
@@ -173,8 +173,8 @@ export default function Portfolio() {
                 className="group relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-4 border border-gray-200 dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1003E8]/10 to-[#F2730A]/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <div className="text-[#1003E8] dark:text-[#F2730A]">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <div className="text-primary dark:text-accent">
                       {stat.icon}
                     </div>
                   </div>
@@ -200,8 +200,8 @@ export default function Portfolio() {
             onClick={() => setActiveTab('running')}
             className={`flex items-center gap-3 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
               activeTab === 'running'
-                ? 'bg-gradient-to-r from-[#1003E8] to-[#463261] text-white shadow-lg'
-                : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-[#1003E8] dark:hover:border-blue-500'
+                ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary dark:hover:border-blue-500'
             }`}
           >
             <Rocket className="w-5 h-5" />
@@ -215,8 +215,8 @@ export default function Portfolio() {
             onClick={() => setActiveTab('future')}
             className={`flex items-center gap-3 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
               activeTab === 'future'
-                ? 'bg-gradient-to-r from-[#F2730A] to-orange-500 text-white shadow-lg'
-                : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-[#F2730A] dark:hover:border-orange-500'
+                ? 'bg-gradient-to-r from-accent to-orange-500 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-accent dark:hover:border-orange-500'
             }`}
           >
             <Calendar className="w-5 h-5" />
@@ -230,8 +230,8 @@ export default function Portfolio() {
             onClick={() => setActiveTab('all')}
             className={`flex items-center gap-3 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
               activeTab === 'all'
-                ? 'bg-gradient-to-r from-[#463261] to-purple-600 text-white shadow-lg'
-                : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-[#463261] dark:hover:border-purple-500'
+                ? 'bg-gradient-to-r from-secondary to-purple-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-secondary dark:hover:border-purple-500'
             }`}
           >
             <Target className="w-5 h-5" />
@@ -248,7 +248,7 @@ export default function Portfolio() {
         <section className="max-w-7xl mx-auto px-4 py-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-[#1003E8] to-[#463261] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 Running Projects
               </span>
             </h2>
@@ -281,7 +281,7 @@ export default function Portfolio() {
         <section className="max-w-7xl mx-auto px-4 py-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-[#F2730A] to-orange-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-accent to-orange-500 bg-clip-text text-transparent">
                 Future Projects
               </span>
             </h2>
@@ -314,7 +314,7 @@ export default function Portfolio() {
                   
                   {/* Title and status */}
                   <div className="flex items-start justify-between mb-3">
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-[#1003E8] dark:group-hover:text-blue-400 transition-colors flex-1 pr-4">
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-blue-400 transition-colors flex-1 pr-4">
                       {project.title}
                     </h3>
                     <span className={`text-xs font-bold px-3 py-1 rounded-full ${
@@ -390,7 +390,7 @@ export default function Portfolio() {
                   </div>
                   
                   {/* CTA Button */}
-                  <button className="group/btn w-full bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 hover:from-[#1003E8] hover:to-blue-600 dark:hover:from-[#1003E8] dark:hover:to-blue-600 text-gray-800 dark:text-gray-300 hover:text-white py-3 rounded-xl font-semibold transition-all duration-300">
+                  <button className="group/btn w-full bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 hover:from-primary hover:to-blue-600 dark:hover:from-primary dark:hover:to-blue-600 text-gray-800 dark:text-gray-300 hover:text-white py-3 rounded-xl font-semibold transition-all duration-300">
                     <span className="flex items-center justify-center gap-2">
                       Track Progress
                       <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -411,7 +411,7 @@ export default function Portfolio() {
         <section className="max-w-7xl mx-auto px-4 py-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-[#463261] to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-secondary to-purple-600 bg-clip-text text-transparent">
                 Complete Portfolio
               </span>
             </h2>
@@ -424,7 +424,7 @@ export default function Portfolio() {
 
       {/* CTA Section */}
       <section className="max-w-5xl mx-auto px-4 py-20">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1003E8] via-[#463261] to-[#F2730A] p-8 md:p-12 text-center">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-secondary to-accent p-8 md:p-12 text-center">
           {/* Animated background elements */}
           <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
@@ -434,10 +434,10 @@ export default function Portfolio() {
               Want to Collaborate?
             </h2>
             <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-              Let's work together on your next project or bring one of my future ideas to life.
+              Let&apos;s work together on your next project or bring one of my future ideas to life.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-[#1003E8] px-8 py-3.5 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              <button className="bg-white text-primary px-8 py-3.5 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
                 Start Collaboration
               </button>
               <button className="bg-transparent border-2 border-white text-white px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-white/10 transition-all duration-300">

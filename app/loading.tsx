@@ -8,7 +8,7 @@ export default function Loading() {
         {/* Futuristic Grid Scanner Animation */}
         <div className="w-32 h-32 relative mb-8">
           <div className="absolute inset-0 border border-primary/20 rounded-xl overflow-hidden glass-panel">
-            <div className="w-full h-[2px] bg-primary/60 shadow-[0_0_8px_rgba(16,3,232,0.8)] animate-[scan_2s_ease-in-out_infinite]" />
+            <div className="w-full h-[2px] bg-primary/60 shadow-md shadow-primary/80 animate-[scan_2s_ease-in-out_infinite]" />
           </div>
           <div className="absolute inset-0 border border-primary/40 rounded-xl rotate-45 scale-75 opacity-50" />
         </div>

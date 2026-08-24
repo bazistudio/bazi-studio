@@ -91,16 +91,16 @@ export default function Contact() {
         <div className="relative max-w-7xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-gray-800 dark:to-gray-700 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full mb-6">
             <Sparkles size={16} />
-            <span className="text-sm font-semibold">Let's Connect</span>
+            <span className="text-sm font-semibold">Let&apos;s Connect</span>
           </div>
           
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Get in <span className="bg-gradient-to-r from-[#1003E8] via-[#463261] to-[#F2730A] bg-clip-text text-transparent">Touch</span>
+            Get in <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Touch</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
             Have a project or question? Reach out via email, phone, WhatsApp, or the form below. 
-            Let's create something amazing together!
+            Let&apos;s create something amazing together!
           </p>
           
           {/* Stats */}
@@ -159,7 +159,7 @@ export default function Contact() {
                 </p>
                 
                 {/* CTA */}
-                <div className="mt-6 flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium">
+                <div className="mt-6 flex items-center gap-2 text-primary dark:text-blue-400 font-medium">
                   <span>Contact now</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -186,7 +186,7 @@ export default function Contact() {
                   Message Sent Successfully!
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  We'll get back to you within 24 hours.
+                  We&apos;ll get back to you within 24 hours.
                 </p>
               </div>
             </div>
@@ -198,7 +198,7 @@ export default function Contact() {
                 Send us a <span className="gradient-text">Message</span>
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                Fill out the form below and we'll get back to you as soon as possible.
+                Fill out the form below and we&apos;ll get back to you as soon as possible.
               </p>
             </div>
             
@@ -214,7 +214,7 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-xl font-inter focus:outline-none focus:ring-2 focus:ring-[#1003E8] focus:border-transparent transition-all"
+                    className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-xl font-sans focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                   />
                 </div>
                 <div className="relative">
@@ -226,7 +226,7 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-xl font-inter focus:outline-none focus:ring-2 focus:ring-[#1003E8] focus:border-transparent transition-all"
+                    className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-xl font-sans focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                   />
                 </div>
               </div>
@@ -242,7 +242,7 @@ export default function Contact() {
                     value={formData.subject}
                     onChange={handleInputChange}
                     required
-                    className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-xl font-inter focus:outline-none focus:ring-2 focus:ring-[#1003E8] focus:border-transparent transition-all"
+                    className="w-full pl-12 pr-4 py-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-xl font-sans focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
@@ -250,7 +250,7 @@ export default function Contact() {
                     name="projectType"
                     value={formData.projectType}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-xl font-inter focus:outline-none focus:ring-2 focus:ring-[#1003E8] focus:border-transparent transition-all appearance-none"
+                    className="w-full px-4 py-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-xl font-sans focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all appearance-none"
                   >
                     <option value="">Select Project Type</option>
                     {projectTypes.map((type, index) => (
@@ -269,7 +269,7 @@ export default function Contact() {
                   onChange={handleInputChange}
                   rows={6}
                   required
-                  className="w-full p-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-xl font-inter focus:outline-none focus:ring-2 focus:ring-[#1003E8] focus:border-transparent transition-all resize-none"
+                  className="w-full p-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 rounded-xl font-sans focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
                 ></textarea>
               </div>
               
@@ -277,7 +277,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="group relative w-full py-4 bg-gradient-to-r from-[#1003E8] to-[#463261] text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="group relative w-full py-4 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <span className="flex items-center justify-center gap-3">
                   {isSubmitting ? (
@@ -296,7 +296,7 @@ export default function Contact() {
               
               {/* Privacy Note */}
               <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-                Your information is secure. We'll never share your details with third parties.
+                Your information is secure. We&apos;ll never share your details with third parties.
               </p>
             </form>
           </div>

@@ -74,7 +74,7 @@ export default function CaseStudyHero({ project }: { project: any }) {
 
       <div className="flex flex-wrap items-center justify-center gap-4">
         {project.demo_url && (
-          <a href={project.demo_url} target="_blank" rel="noopener noreferrer" className="btn-base bg-primary text-primary-foreground px-8 py-3 flex items-center gap-2 shadow-[0_0_20px_rgba(16,3,232,0.3)] hover:-translate-y-1 transition-transform">
+          <a href={project.demo_url} target="_blank" rel="noopener noreferrer" className="btn-base bg-primary text-primary-foreground px-8 py-3 flex items-center gap-2 shadow-lg shadow-primary/30 hover:-translate-y-1 transition-transform">
             <Globe size={18} /> Live Deployment
           </a>
         )}

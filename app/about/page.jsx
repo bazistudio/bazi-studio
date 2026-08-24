@@ -51,24 +51,24 @@ export default function About() {
   return (
     <div className="min-h-screen pt-1">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-linear-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-20 md:py-28">
+      <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-20 md:py-28">
         {/* Background decorative elements */}
-        <div className="absolute top-0 left-0 w-72 h-72 bg-linear-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-linear-to-tl from-orange-500/10 to-pink-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-0 w-72 h-72 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-orange-500/10 to-pink-500/10 rounded-full blur-3xl"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 bg-linear-to-r from-blue-100 to-purple-100 dark:from-gray-800 dark:to-gray-700 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-gray-800 dark:to-gray-700 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full mb-6">
             <Sparkles size={16} />
             <span className="text-sm font-semibold">The Story Behind</span>
           </div>
           
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            About <span className="bg-linear-to-r from-[#1003E8] via-[#463261] to-[#F2730A] bg-clip-text text-transparent">Me</span>
+            About <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Me</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-            I&apos;m <span className="font-bold text-[#1003E8] dark:text-blue-400">Naveed Gul</span>, founder of{" "}
-            <span className="font-bold text-[#F2730A]">BaziStudio</span> — a modern digital studio 
+            I&apos;m <span className="font-bold text-primary dark:text-blue-400">Naveed Gul</span>, founder of{" "}
+            <span className="font-bold text-accent">BaziStudio</span> — a modern digital studio 
             delivering premium design and development solutions.
           </p>
           
@@ -108,8 +108,8 @@ export default function About() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-3 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                 activeTab === tab.id
-                  ? 'bg-linear-to-r from-[#1003E8] to-[#463261] text-white shadow-lg'
-                  : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-[#1003E8] dark:hover:border-blue-500'
+                  ? 'bg-gradient-to-r from-primary to-secondary text-white shadow-lg'
+                  : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary dark:hover:border-blue-500'
               }`}
             >
               {tab.icon}
@@ -124,7 +124,7 @@ export default function About() {
         <section className="max-w-7xl mx-auto px-4 py-8">
           <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
             <div className="order-2 md:order-1">
-              <div className="inline-flex items-center gap-2 bg-linear-to-r from-blue-100 to-purple-100 dark:from-gray-800 dark:to-gray-700 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full mb-6">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-gray-800 dark:to-gray-700 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full mb-6">
                 <BookOpen size={16} />
                 <span className="text-sm font-semibold">The Beginning</span>
               </div>
@@ -153,11 +153,11 @@ export default function About() {
               
               <div className="mt-8 flex items-center gap-6">
                 <div className="flex items-center gap-3">
-                  <MapPin className="text-[#F2730A]" />
+                  <MapPin className="text-accent" />
                   <span className="text-gray-700 dark:text-gray-300">Remote · Worldwide</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Mail className="text-[#1003E8]" />
+                  <Mail className="text-primary" />
                   <span className="text-gray-700 dark:text-gray-300">Available 24/7</span>
                 </div>
               </div>
@@ -165,10 +165,10 @@ export default function About() {
             
             <div className="order-1 md:order-2 relative">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-                <div className="aspect-square bg-linear-to-br from-[#1003E8] to-[#F2730A] p-1">
-                  <div className="w-full h-full bg-linear-to-br from-gray-900 to-gray-800 rounded-2xl flex items-center justify-center">
+                <div className="aspect-square bg-gradient-to-br from-primary to-accent p-1">
+                  <div className="w-full h-full bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl flex items-center justify-center">
                     <div className="text-center p-8">
-                      <div className="w-32 h-32 rounded-full bg-linear-to-br from-[#1003E8] to-[#F2730A] flex items-center justify-center mx-auto mb-6">
+                      <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mx-auto mb-6">
                         <span className="text-white text-4xl font-bold">NG</span>
                       </div>
                       <h3 className="text-2xl font-bold text-white mb-2">Naveed Gul</h3>
@@ -184,10 +184,10 @@ export default function About() {
               </div>
               
               {/* Floating badges */}
-              <div className="absolute -top-4 -left-4 bg-linear-to-r from-[#F2730A] to-orange-500 text-white px-4 py-2 rounded-full font-semibold text-sm shadow-lg">
+              <div className="absolute -top-4 -left-4 bg-gradient-to-r from-accent to-orange-500 text-white px-4 py-2 rounded-full font-semibold text-sm shadow-lg">
                 🚀 3+ Years Experience
               </div>
-              <div className="absolute -bottom-4 -right-4 bg-linear-to-r from-[#1003E8] to-blue-600 text-white px-4 py-2 rounded-full font-semibold text-sm shadow-lg">
+              <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-2 rounded-full font-semibold text-sm shadow-lg">
                 ⭐ 50+ Projects
               </div>
             </div>
@@ -211,7 +211,7 @@ export default function About() {
             {/* Design Skills */}
             <div>
               <div className="flex items-center gap-3 mb-8">
-                <div className="p-3 rounded-xl bg-linear-to-br from-purple-500 to-pink-500">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500">
                   <Palette className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -235,7 +235,7 @@ export default function About() {
                     </div>
                     <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                       <div 
-                        className="h-full bg-linear-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 group-hover:shadow-lg group-hover:shadow-purple-500/20"
+                        className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 group-hover:shadow-lg group-hover:shadow-purple-500/20"
                         style={{ width: `${skill.level}%` }}
                       ></div>
                     </div>
@@ -247,7 +247,7 @@ export default function About() {
             {/* Development Skills */}
             <div>
               <div className="flex items-center gap-3 mb-8">
-                <div className="p-3 rounded-xl bg-linear-to-br from-blue-500 to-cyan-500">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500">
                   <Code2 className="w-6 h-6 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -271,7 +271,7 @@ export default function About() {
                     </div>
                     <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                       <div 
-                        className="h-full bg-linear-to-r from-blue-500 to-cyan-500 rounded-full transition-all duration-1000 group-hover:shadow-lg group-hover:shadow-blue-500/20"
+                        className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full transition-all duration-1000 group-hover:shadow-lg group-hover:shadow-blue-500/20"
                         style={{ width: `${skill.level}%` }}
                       ></div>
                     </div>
@@ -302,7 +302,7 @@ export default function About() {
                 className="group relative bg-white dark:bg-gray-800 rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
               >
                 <div className="p-8">
-                  <div className={`w-16 h-16 rounded-2xl bg-linear-to-br ${
+                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${
                     index % 3 === 0 ? 'from-blue-500 to-cyan-500' :
                     index % 3 === 1 ? 'from-purple-500 to-pink-500' :
                     'from-orange-500 to-yellow-500'
@@ -321,7 +321,7 @@ export default function About() {
                 </div>
                 
                 {/* Hover effect */}
-                <div className="absolute inset-0 bg-linear-to-br from-transparent via-transparent to-transparent group-hover:via-white/5 group-hover:to-white/10 transition-all duration-500 -z-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-transparent group-hover:via-white/5 group-hover:to-white/10 transition-all duration-500 -z-10"></div>
               </div>
             ))}
           </div>
@@ -342,7 +342,7 @@ export default function About() {
           
           <div className="relative">
             {/* Timeline line */}
-            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-gray-300 dark:via-gray-700 to-transparent -translate-x-1/2"></div>
+            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-gray-300 dark:via-gray-700 to-transparent -translate-x-1/2"></div>
             
             <div className="space-y-12">
               {timeline.map((item, index) => (
@@ -351,7 +351,7 @@ export default function About() {
                     index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                   }`}>
                     {/* Year */}
-                    <div className="w-24 h-24 rounded-full bg-linear-to-br from-[#1003E8] to-[#463261] flex items-center justify-center text-white text-xl font-bold shadow-lg z-10">
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-xl font-bold shadow-lg z-10">
                       {item.year}
                     </div>
                     
@@ -381,7 +381,7 @@ export default function About() {
 
       {/* Mission Section */}
       <section className="max-w-5xl mx-auto px-4 py-20">
-        <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#1003E8] via-[#463261] to-[#F2730A] p-8 md:p-12 text-center">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-secondary to-accent p-8 md:p-12 text-center">
           {/* Animated background elements */}
           <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
@@ -395,7 +395,7 @@ export default function About() {
               small businesses, and startups create modern digital experiences without the 
               complexity and high costs.
             </p>
-            <button className="group bg-white text-[#1003E8] px-8 py-3.5 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+            <button className="group bg-white text-primary px-8 py-3.5 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
               <span className="flex items-center gap-3">
                 Let&apos;s Work Together
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

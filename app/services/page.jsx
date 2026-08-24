@@ -84,7 +84,7 @@ export default function Services() {
           </div>
           
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-[#1003E8] via-[#463261] to-[#F2730A] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               Our Services
             </span>
           </h1>
@@ -95,11 +95,11 @@ export default function Services() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="group flex items-center gap-3 bg-gradient-to-r from-[#1003E8] to-[#463261] text-white px-8 py-3.5 rounded-xl font-bold text-lg hover:shadow-xl hover:shadow-blue-500/20 transition-all duration-300">
+            <button className="group flex items-center gap-3 bg-gradient-to-r from-primary to-secondary text-white px-8 py-3.5 rounded-xl font-bold text-lg hover:shadow-xl hover:shadow-primary/20 transition-all duration-300">
               Get a Free Quote
               <ArrowRight className="group-hover:translate-x-2 transition-transform" />
             </button>
-            <button className="group flex items-center gap-3 bg-white dark:bg-gray-800 border-2 border-[#463261] text-[#463261] dark:text-gray-300 px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-[#463261] hover:text-white dark:hover:bg-gray-700 transition-all duration-300">
+            <button className="group flex items-center gap-3 bg-white dark:bg-gray-800 border-2 border-secondary text-secondary dark:text-gray-300 px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-secondary hover:text-white dark:hover:bg-gray-700 transition-all duration-300">
               View Case Studies
             </button>
           </div>
@@ -114,8 +114,8 @@ export default function Services() {
               key={index}
               className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-transparent transition-all duration-500 hover:shadow-2xl"
             >
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#1003E8]/10 to-[#F2730A]/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <div className="text-[#1003E8] dark:text-[#F2730A]">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="text-primary dark:text-accent">
                   {benefit.icon}
                 </div>
               </div>
@@ -127,7 +127,7 @@ export default function Services() {
                 {benefit.description}
               </p>
               
-              <div className="absolute bottom-0 left-6 right-6 h-1 bg-gradient-to-r from-transparent via-[#1003E8] to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+              <div className="absolute bottom-0 left-6 right-6 h-1 bg-gradient-to-r from-transparent via-primary to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
             </div>
           ))}
         </div>
@@ -168,7 +168,7 @@ export default function Services() {
                 </div>
                 
                 {/* Title */}
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-[#1003E8] dark:group-hover:text-blue-400 transition-colors">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors">
                   {service.title}
                 </h3>
                 
@@ -193,7 +193,7 @@ export default function Services() {
                 </div>
                 
                 {/* CTA Button */}
-                <button className="group/btn w-full bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 hover:from-[#1003E8] hover:to-blue-600 dark:hover:from-[#1003E8] dark:hover:to-blue-600 text-gray-800 dark:text-gray-300 hover:text-white py-3 rounded-xl font-semibold transition-all duration-300">
+                <button className="group/btn w-full bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 hover:from-primary hover:to-blue-600 dark:hover:from-primary dark:hover:to-blue-600 text-gray-800 dark:text-gray-300 hover:text-white py-3 rounded-xl font-semibold transition-all duration-300">
                   <span className="flex items-center justify-center gap-2">
                     Learn More
                     <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -227,7 +227,7 @@ export default function Services() {
             {processSteps.map((step, index) => (
               <div key={index} className="relative">
                 {/* Step number */}
-                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 border-2 border-gray-200 dark:border-gray-700 flex items-center justify-center group hover:border-[#1003E8] dark:hover:border-blue-500 transition-all duration-300 hover:scale-110">
+                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-white to-gray-100 dark:from-gray-800 dark:to-gray-700 border-2 border-gray-200 dark:border-gray-700 flex items-center justify-center group hover:border-primary dark:hover:border-blue-500 transition-all duration-300 hover:scale-110">
                   <div className="text-center">
                     <div className="text-4xl mb-1">{step.icon}</div>
                     <div className="text-xs font-bold text-gray-500 dark:text-gray-400">{step.number}</div>
@@ -256,7 +256,7 @@ export default function Services() {
 
       {/* CTA Section */}
       <section className="max-w-5xl mx-auto px-4 py-20">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#1003E8] via-[#463261] to-[#F2730A] p-8 md:p-12 text-center">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-secondary to-accent p-8 md:p-12 text-center">
           {/* Animated background elements */}
           <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
@@ -266,10 +266,10 @@ export default function Services() {
               Ready to Start Your Project?
             </h2>
             <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-              Let's discuss your requirements and create a custom solution that fits your needs and budget.
+              Let&apos;s discuss your requirements and create a custom solution that fits your needs and budget.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-[#1003E8] px-8 py-3.5 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              <button className="bg-white text-primary px-8 py-3.5 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
                 Schedule a Call
               </button>
               <button className="bg-transparent border-2 border-white text-white px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-white/10 transition-all duration-300">

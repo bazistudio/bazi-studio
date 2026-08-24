@@ -117,9 +117,6 @@ export default function Projects() {
     { name: "Database", projects: 9, icon: <Database className="w-6 h-6" /> },
   ];
 
-  // Industries
-  const industries = ["Finance", "Retail", "Healthcare", "Education", "Environmental", "Banking", "Logistics", "Creative"];
-
   // Filter projects
   const filteredProjects = projects.filter(project => {
     if (activeFilter === 'all') return true;
@@ -136,7 +133,7 @@ export default function Projects() {
     project.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-  // Animate stats on load - FIXED: Added dependencies
+  // Animate stats on load
   useEffect(() => {
     const timer = setTimeout(() => {
       setAnimatedStats({
@@ -147,24 +144,24 @@ export default function Projects() {
       });
     }, 500);
     return () => clearTimeout(timer);
-  }, [projects.length, technologies.length]); // Added dependencies
+  }, [projects.length, technologies.length]);
 
   return (
-    <div className="min-h-screen pt-16 bg-linear-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen pt-16 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 md:py-28">
-        <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-900/10 dark:to-purple-900/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-900/10 dark:to-purple-900/10"></div>
         <div className="absolute top-10 left-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-10 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 bg-linear-to-r from-blue-100 to-purple-100 dark:from-gray-800 dark:to-gray-700 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-gray-800 dark:to-gray-700 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full mb-6">
             <Sparkles size={16} />
             <span className="text-sm font-semibold">Portfolio Showcase</span>
           </div>
           
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Our <span className="bg-linear-to-r from-[#1003E8] via-[#463261] to-[#F2730A] bg-clip-text text-transparent">
+            Our <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               Portfolio
             </span>
           </h1>
@@ -187,8 +184,8 @@ export default function Projects() {
                 className="group relative bg-white dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-linear-to-br from-[#1003E8]/10 to-[#F2730A]/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <div className="text-[#1003E8] dark:text-[#F2730A]">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <div className="text-primary dark:text-accent">
                       {stat.icon}
                     </div>
                   </div>
@@ -218,7 +215,7 @@ export default function Projects() {
                 <input
                   type="text"
                   placeholder="Search projects by name, technology, or category..."
-                  className="w-full pl-12 pr-4 py-3.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#1003E8] focus:border-transparent transition-all"
+                  className="w-full pl-12 pr-4 py-3.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -233,7 +230,7 @@ export default function Projects() {
                   onClick={() => setViewMode('grid')}
                   className={`p-2 rounded-lg transition-colors ${
                     viewMode === 'grid' 
-                      ? 'bg-[#1003E8] text-white' 
+                      ? 'bg-primary text-white' 
                       : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                   aria-label="Grid view"
@@ -244,7 +241,7 @@ export default function Projects() {
                   onClick={() => setViewMode('list')}
                   className={`p-2 rounded-lg transition-colors ${
                     viewMode === 'list' 
-                      ? 'bg-[#1003E8] text-white' 
+                      ? 'bg-primary text-white' 
                       : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                   aria-label="List view"
@@ -263,8 +260,8 @@ export default function Projects() {
                 onClick={() => setActiveFilter(filterItem.id)}
                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all duration-300 ${
                   activeFilter === filterItem.id
-                    ? 'bg-linear-to-r from-[#1003E8] to-[#463261] text-white border-transparent shadow-lg'
-                    : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-[#1003E8] dark:hover:border-blue-500'
+                    ? 'bg-gradient-to-r from-primary to-secondary text-white border-transparent shadow-lg'
+                    : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary dark:hover:border-blue-500'
                 }`}
               >
                 {filterItem.icon}
@@ -284,7 +281,7 @@ export default function Projects() {
         {/* Results Info */}
         <div className="flex justify-between items-center mb-8">
           <p className="text-gray-600 dark:text-gray-300">
-            Showing <span className="font-bold text-[#1003E8] dark:text-blue-400">{filteredProjects.length}</span> of <span className="font-bold">{projects.length}</span> projects
+            Showing <span className="font-bold text-primary dark:text-blue-400">{filteredProjects.length}</span> of <span className="font-bold">{projects.length}</span> projects
             {searchTerm && (
               <span> for &quot;<span className="font-bold">{searchTerm}</span>&quot;</span>
             )}
@@ -350,7 +347,7 @@ export default function Projects() {
           </div>
         ) : (
           <div className="text-center py-20">
-            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-linear-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center">
+            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center">
               <Search className="w-12 h-12 text-gray-400" />
             </div>
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
@@ -364,7 +361,7 @@ export default function Projects() {
                 setActiveFilter('all');
                 setSearchTerm('');
               }}
-              className="inline-flex items-center gap-2 bg-linear-to-r from-[#1003E8] to-[#463261] text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
             >
               <Eye className="w-5 h-5" />
               View All Projects
@@ -377,7 +374,7 @@ export default function Projects() {
       <section className="max-w-7xl mx-auto px-4 py-20">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Our <span className="bg-linear-to-r from-[#1003E8] to-[#F2730A] bg-clip-text text-transparent">
+            Our <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Technology Stack
             </span>
           </h2>
@@ -390,10 +387,10 @@ export default function Projects() {
           {technologies.map((tech, index) => (
             <div 
               key={index}
-              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-[#1003E8] dark:hover:border-blue-500 transition-all duration-500 hover:-translate-y-2"
+              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-primary dark:hover:border-blue-500 transition-all duration-500 hover:-translate-y-2"
             >
-              <div className="w-12 h-12 rounded-xl bg-linear-to-br from-[#1003E8]/10 to-[#F2730A]/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                <div className="text-[#1003E8] dark:text-[#F2730A]">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <div className="text-primary dark:text-accent">
                   {tech.icon}
                 </div>
               </div>
@@ -411,7 +408,7 @@ export default function Projects() {
 
       {/* CTA Section */}
       <section className="max-w-5xl mx-auto px-4 pb-20">
-        <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#1003E8] via-[#463261] to-[#F2730A] p-8 md:p-12 text-center">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-secondary to-accent p-8 md:p-12 text-center">
           {/* Animated background elements */}
           <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
@@ -424,7 +421,7 @@ export default function Projects() {
               Let&apos;s discuss your requirements and create a custom solution that exceeds your expectations.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-[#1003E8] px-8 py-3.5 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              <button className="bg-white text-primary px-8 py-3.5 rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all duration-300">
                 Start a Project
               </button>
               <button className="bg-transparent border-2 border-white text-white px-8 py-3.5 rounded-xl font-bold text-lg hover:bg-white/10 transition-all duration-300">

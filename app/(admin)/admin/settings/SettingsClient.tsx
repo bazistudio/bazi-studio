@@ -114,7 +114,7 @@ export default function SettingsClient() {
                 <div className="space-y-1.5">
                   <label className="font-semibold text-foreground">Primary Accent Color</label>
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-xl bg-[#1003E8] border border-border shadow-sm shrink-0" />
+                    <div className="w-8 h-8 rounded-xl bg-primary border border-border shadow-sm shrink-0" />
                     <input
                       type="text"
                       defaultValue="#1003E8"

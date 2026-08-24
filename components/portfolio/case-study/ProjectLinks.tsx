@@ -22,7 +22,7 @@ export default function ProjectLinks({ project }: { project: any }) {
 
         <div className="flex flex-wrap justify-center gap-4 pt-2">
           {project.demo_url && (
-            <a href={project.demo_url} target="_blank" rel="noopener noreferrer" className="btn-base bg-primary text-primary-foreground px-7 py-3 flex items-center gap-2 shadow-[0_0_20px_rgba(16,3,232,0.3)] hover:-translate-y-1 transition-transform font-medium">
+            <a href={project.demo_url} target="_blank" rel="noopener noreferrer" className="btn-base bg-primary text-primary-foreground px-7 py-3 flex items-center gap-2 shadow-lg shadow-primary/30 hover:-translate-y-1 transition-transform font-medium">
               <Globe size={18} /> Visit Live Deployment <ArrowRight size={16} />
             </a>
           )}
