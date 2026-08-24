@@ -5,6 +5,7 @@ export const ProjectSchema = z.object({
   title: z.string().min(1, "Title is required"),
   slug: z.string().min(1, "Slug is required"),
   category_id: z.string().uuid().nullable().optional(),
+  project_type: z.enum(["case_study", "shortlist", "figma"]),
   status: z.enum(["draft", "published", "archived"]),
   featured: z.boolean(),
   display_order: z.number().int(),

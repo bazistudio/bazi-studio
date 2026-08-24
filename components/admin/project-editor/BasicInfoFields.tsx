@@ -45,7 +45,20 @@ export default function BasicInfoFields({ form }: { form: UseFormReturn<ProjectF
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Project Type</label>
+          <select 
+            {...register("project_type")}
+            className="w-full p-2.5 rounded-lg bg-background border border-border focus:border-primary outline-none"
+          >
+            <option value="case_study">Complete Case Study</option>
+            <option value="shortlist">Shortlisted Project</option>
+            <option value="figma">Figma Design Project</option>
+          </select>
+          {errors.project_type && <p className="text-xs text-destructive">{errors.project_type.message}</p>}
+        </div>
+
         <div className="space-y-2">
           <label className="text-sm font-medium">Status</label>
           <select 

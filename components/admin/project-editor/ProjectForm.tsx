@@ -24,6 +24,7 @@ export default function ProjectForm({ initialData }: { initialData?: Partial<Pro
     defaultValues: {
       title: "",
       slug: "",
+      project_type: "case_study",
       status: "draft",
       featured: false,
       short_description: "",
