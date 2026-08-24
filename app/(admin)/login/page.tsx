@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/database/client'
 import { ShieldAlert, Loader2, Eye, EyeOff } from 'lucide-react'
 
@@ -11,27 +10,31 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  const router = useRouter()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
 
-    const supabase = createClient()
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    try {
+      const supabase = createClient()
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      })
 
-    if (signInError) {
-      setError(signInError.message)
+      if (signInError) {
+        setError(signInError.message)
+        setLoading(false)
+        return
+      }
+
+      // Hard navigation ensures server cookies & middleware session are synced seamlessly
+      window.location.href = '/admin'
+    } catch (err: any) {
+      setError(err?.message || 'Authentication failed.')
       setLoading(false)
-      return
     }
-
-    router.push('/admin')
-    router.refresh()
   }
 
   return (

@@ -1,5 +1,8 @@
-import NewProjectPage from "../new/page";
+import { getCategories } from "@/lib/actions/taxonomy";
+import GuidedProjectCreate from "@/components/admin/project-editor/GuidedProjectCreate";
 
-export default function CreateProjectPage() {
-  return <NewProjectPage />;
+export default async function CreateProjectPage() {
+  const categories = await getCategories();
+
+  return <GuidedProjectCreate categories={categories} />;
 }

@@ -9,7 +9,6 @@ export async function updateSession(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-  // If Supabase credentials are not set, continue without crashing the middleware
   if (!supabaseUrl || !supabaseKey) {
     return supabaseResponse
   }
@@ -24,7 +23,7 @@ export async function updateSession(request: NextRequest) {
             return request.cookies.getAll()
           },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+            cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
             supabaseResponse = NextResponse.next({
               request,
             })
@@ -36,8 +35,24 @@ export async function updateSession(request: NextRequest) {
       }
     )
 
-    // refreshing the auth token
-    await supabase.auth.getUser()
+    // IMPORTANT: Refreshing the auth token
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    // Route Protection: Unauthenticated requests to /admin redirect to /login
+    if (!user && request.nextUrl.pathname.startsWith('/admin')) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
+
+    // Authenticated users hitting /login are forwarded to /admin
+    if (user && request.nextUrl.pathname === '/login') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/admin'
+      return NextResponse.redirect(url)
+    }
   } catch (error) {
     console.error("Supabase middleware error:", error)
   }
