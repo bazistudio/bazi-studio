@@ -1,9 +1,9 @@
-import { getProjects } from "@/lib/actions/projects";
 import { createClient } from "@/lib/database/server";
 import { notFound } from "next/navigation";
 import ProjectEditorClient from "./ProjectEditorClient";
 
-export default async function ProjectDetailPage({ params }: { params: { id: string } }) {
+export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> | { id: string } }) {
+  const resolvedParams = await params;
   const supabase = await createClient();
   
   // We use Supabase joins to fetch the core project and all relational data in one query
@@ -13,10 +13,13 @@ export default async function ProjectDetailPage({ params }: { params: { id: stri
       *,
       project_sections(*),
       project_media(*),
+      project_videos(*),
+      project_technologies(*),
+      project_tags(*),
       build_logs(*),
       seo_metadata(*)
     `)
-    .eq('id', params.id)
+    .eq('id', resolvedParams.id)
     .single();
 
   if (error || !project) {
@@ -27,6 +30,7 @@ export default async function ProjectDetailPage({ params }: { params: { id: stri
   // Pre-sort relational data locally if needed or rely on order_index / day_number
   project.project_sections?.sort((a: any, b: any) => (a.order_index || 0) - (b.order_index || 0));
   project.project_media?.sort((a: any, b: any) => (a.order_index || 0) - (b.order_index || 0));
+  project.project_videos?.sort((a: any, b: any) => (a.order_index || 0) - (b.order_index || 0));
   project.build_logs?.sort((a: any, b: any) => (a.day_number || 0) - (b.day_number || 0));
 
   return (
@@ -37,7 +41,7 @@ export default async function ProjectDetailPage({ params }: { params: { id: stri
             Project: <span className="text-primary">{project.title}</span>
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            Manage the full case study, media assets, and developer logs.
+            Type: <span className="uppercase font-mono text-xs font-semibold px-2 py-0.5 rounded bg-primary/10 text-primary">{project.project_type || "case_study"}</span>
           </p>
         </div>
       </div>

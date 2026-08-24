@@ -9,6 +9,7 @@ export default function ProjectOverviewTab({ project }: { project: any }) {
     id: project.id,
     title: project.title,
     slug: project.slug,
+    project_type: project.project_type || "case_study",
     category_id: project.category_id,
     status: project.status,
     featured: project.featured,
@@ -20,9 +21,17 @@ export default function ProjectOverviewTab({ project }: { project: any }) {
     github_url: project.github_url || "",
     demo_url: project.demo_url || "",
     figma_url: project.figma_url || "",
+    figma_prototype_url: project.figma_prototype_url || "",
+    figma_community_url: project.figma_community_url || "",
     started_at: project.started_at || "",
     completed_at: project.completed_at || "",
     duration: project.duration || "",
+    role: project.role || "",
+    team_size: project.team_size || "",
+    client_name: project.client_name || "",
+    is_personal_project: !!project.is_personal_project,
+    impact_summary: project.impact_summary || "",
+    featured_reason: project.featured_reason || "",
   }
 
   return (
