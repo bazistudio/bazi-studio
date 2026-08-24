@@ -1,10 +1,12 @@
 "use client"
 
 import { useState } from 'react'
-import { createClient } from '@/lib/database/client'
+import { useRouter } from 'next/navigation'
+import { loginAdmin } from '@/lib/actions/auth'
 import { ShieldAlert, Loader2, Eye, EyeOff } from 'lucide-react'
 
 export default function LoginPage() {
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -17,19 +19,13 @@ export default function LoginPage() {
     setError(null)
 
     try {
-      const supabase = createClient()
-      const { error: signInError } = await supabase.auth.signInWithPassword({
+      // Server Action sets the session cookie in HTTP headers directly
+      await loginAdmin({
         email: email.trim(),
         password,
       })
 
-      if (signInError) {
-        setError(signInError.message)
-        setLoading(false)
-        return
-      }
-
-      // Hard navigation ensures server cookies & middleware session are synced seamlessly
+      // Navigate to admin
       window.location.href = '/admin'
     } catch (err: any) {
       setError(err?.message || 'Authentication failed.')
