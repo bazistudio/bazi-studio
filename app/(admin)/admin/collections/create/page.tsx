@@ -1,6 +1,6 @@
 import { getCategories } from "@/lib/actions/taxonomy";
 import PageHeader from "@/components/admin/PageHeader";
-import CollectionsTreeView from "@/components/admin/CollectionsTreeView";
+import CollectionsTreeView from "@/components/collection/CollectionsTreeView";
 
 export default async function CreateCollectionPage() {
   const categories = await getCategories();
@@ -9,7 +9,7 @@ export default async function CreateCollectionPage() {
     <div className="space-y-8 pb-12">
       <PageHeader
         title="Create Collection"
-        description="Add a new organizational group to classify projects across your website."
+        description="Organize projects into structural categories."
       />
 
       <CollectionsTreeView initialCategories={categories} />

@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react';
-import ProjectCard from '../../components/ProjectCard';
+import ProjectCard from '@/components/portfolio/ProjectCard';
 import { Rocket, Calendar, Zap, Target, Sparkles, Clock, CheckCircle, Code, Palette, Cpu, Brain, TrendingUp, ArrowRight, ExternalLink, Eye, Users, Star } from "lucide-react";
 
 export default function Portfolio() {

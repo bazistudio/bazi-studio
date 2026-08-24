@@ -1,8 +1,8 @@
 import { createClient } from "@/lib/database/server";
 import PageHeader from "@/components/admin/PageHeader";
-import EmptyState from "@/components/admin/EmptyState";
+import EmptyState from "@/components/feedback/EmptyState";
 import Link from "next/link";
-import { Home, Sparkles, LayoutGrid, Eye, ArrowRight } from "lucide-react";
+import { Sparkles, LayoutGrid, Eye } from "lucide-react";
 
 export default async function AdminHomepageConfig() {
   const supabase = await createClient();

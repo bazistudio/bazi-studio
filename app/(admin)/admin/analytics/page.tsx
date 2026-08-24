@@ -1,5 +1,5 @@
 import PageHeader from "@/components/admin/PageHeader";
-import EmptyState from "@/components/admin/EmptyState";
+import EmptyState from "@/components/feedback/EmptyState";
 import { BarChart3 } from "lucide-react";
 
 export default async function AdminAnalyticsPage() {

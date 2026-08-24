@@ -76,5 +76,5 @@ export default function LinksFields({ form }: { form: UseFormReturn<ProjectFormV
         </div>
       </div>
     </div>
-  )
+  );
 }

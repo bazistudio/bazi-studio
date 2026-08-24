@@ -1,23 +1,23 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ProjectSchema, ProjectFormValues } from "@/lib/validators/project.schema"
-import { createProject, updateProject } from "@/lib/actions/projects"
+import { ProjectSchema, ProjectFormValues } from "@/lib/validators/project.schema";
+import { createProject, updateProject } from "@/lib/actions/projects";
 
-import BasicInfoFields from "./BasicInfoFields"
-import StoryFields from "./StoryFields"
-import LinksFields from "./LinksFields"
-import TimelineFields from "./TimelineFields"
-import ProfessionalSignalsFields from "./ProfessionalSignalsFields"
-import FormActions from "./FormActions"
+import BasicInfoFields from "./BasicInfoFields";
+import StoryFields from "./StoryFields";
+import LinksFields from "./LinksFields";
+import TimelineFields from "./TimelineFields";
+import ProfessionalSignalsFields from "./ProfessionalSignalsFields";
+import FormActions from "./FormActions";
 
 export default function ProjectForm({ initialData }: { initialData?: Partial<ProjectFormValues> }) {
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   
   const form = useForm<ProjectFormValues>({
     resolver: zodResolver(ProjectSchema),
@@ -47,27 +47,27 @@ export default function ProjectForm({ initialData }: { initialData?: Partial<Pro
       impact_summary: "",
       featured_reason: "",
       ...initialData,
-    }
-  })
+    },
+  });
 
   const onSubmit = async (values: ProjectFormValues) => {
     try {
-      setLoading(true)
+      setLoading(true);
       if (values.id) {
-        await updateProject(values.id, values)
+        await updateProject(values.id, values);
       } else {
-        await createProject(values)
+        await createProject(values);
       }
       
-      router.push("/admin/projects")
-      router.refresh()
+      router.push("/admin/projects");
+      router.refresh();
     } catch (error) {
-      console.error(error)
-      alert("An error occurred while saving the project.")
+      console.error(error);
+      alert("An error occurred while saving the project.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 pb-20">
@@ -78,5 +78,5 @@ export default function ProjectForm({ initialData }: { initialData?: Partial<Pro
       <TimelineFields form={form} />
       <FormActions loading={loading} isEdit={!!initialData?.id} />
     </form>
-  )
+  );
 }

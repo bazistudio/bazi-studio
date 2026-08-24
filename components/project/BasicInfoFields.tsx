@@ -94,5 +94,5 @@ export default function BasicInfoFields({ form }: { form: UseFormReturn<ProjectF
         </div>
       </div>
     </div>
-  )
+  );
 }

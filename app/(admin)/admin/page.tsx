@@ -9,12 +9,10 @@ import {
   Settings, 
   Sparkles,
   ArrowRight,
-  ShieldCheck,
-  Globe
 } from 'lucide-react';
 import PageHeader from '@/components/admin/PageHeader';
-import EmptyState from '@/components/admin/EmptyState';
-import AdminProjectCard from '@/components/admin/AdminProjectCard';
+import EmptyState from '@/components/feedback/EmptyState';
+import AdminProjectCard from '@/components/project/AdminProjectCard';
 
 export default async function AdminDashboard() {
   const supabase = await createClient();
@@ -66,7 +64,7 @@ export default async function AdminDashboard() {
         <div className="glass-panel p-6 rounded-2xl border border-border/80 bg-card/60 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Projects</span>
-            <div className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
               <FolderKanban size={16} />
             </div>
           </div>
@@ -75,7 +73,7 @@ export default async function AdminDashboard() {
             <span className="text-xs text-muted-foreground">total</span>
           </div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground pt-1 border-t border-border/50">
-            <span className="text-emerald-500 font-medium">{pubCount} Published</span>
+            <span className="text-success font-medium">{pubCount} Published</span>
             <span>•</span>
             <span>{dCount} Drafts</span>
           </div>
@@ -85,7 +83,7 @@ export default async function AdminDashboard() {
         <div className="glass-panel p-6 rounded-2xl border border-border/80 bg-card/60 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Collections</span>
-            <div className="w-8 h-8 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center">
               <Layers size={16} />
             </div>
           </div>
@@ -102,7 +100,7 @@ export default async function AdminDashboard() {
         <div className="glass-panel p-6 rounded-2xl border border-border/80 bg-card/60 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Media Assets</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-success/10 text-success flex items-center justify-center">
               <ImageIcon size={16} />
             </div>
           </div>
@@ -119,7 +117,7 @@ export default async function AdminDashboard() {
         <div className="glass-panel p-6 rounded-2xl border border-border/80 bg-card/60 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Contact Inbox</span>
-            <div className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-warning/10 text-warning flex items-center justify-center">
               <MessageSquare size={16} />
             </div>
           </div>
@@ -161,7 +159,7 @@ export default async function AdminDashboard() {
             className="glass-panel p-4 rounded-xl border border-border/80 hover:border-primary/50 flex items-center justify-between group transition-all"
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-purple-500/10 text-purple-500 flex items-center justify-center">
+              <div className="w-9 h-9 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center">
                 <Layers size={18} />
               </div>
               <div className="text-left">
@@ -177,7 +175,7 @@ export default async function AdminDashboard() {
             className="glass-panel p-4 rounded-xl border border-border/80 hover:border-primary/50 flex items-center justify-between group transition-all"
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+              <div className="w-9 h-9 rounded-lg bg-success/10 text-success flex items-center justify-center">
                 <ImageIcon size={18} />
               </div>
               <div className="text-left">

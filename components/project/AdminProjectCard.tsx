@@ -20,7 +20,7 @@ import {
   Loader2,
 } from "lucide-react";
 import StatusBadge from "./StatusBadge";
-import ConfirmDialog from "./ConfirmDialog";
+import ConfirmDialog from "@/components/feedback/ConfirmDialog";
 import { toggleProjectVisibility, setProjectStatus, copyProject, deleteProject } from "@/lib/actions/projects";
 
 interface AdminProjectCardProps {
@@ -53,24 +53,25 @@ export default function AdminProjectCard({
   const categoryName = project.categories?.name;
 
   const typeConfig = {
-    case_study: { label: "Case Study", icon: BookOpen, color: "text-blue-500 bg-blue-500/10 border-blue-500/20" },
-    shortlist: { label: "Shortlisted", icon: Layers, color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20" },
-    figma: { label: "Figma Design", icon: Figma, color: "text-purple-500 bg-purple-500/10 border-purple-500/20" },
+    case_study: { label: "Case Study", icon: BookOpen, color: "text-primary bg-primary/10 border-primary/20" },
+    shortlist: { label: "Shortlisted", icon: Layers, color: "text-success bg-success/10 border-success/20" },
+    figma: { label: "Figma Design", icon: Figma, color: "text-secondary bg-secondary/10 border-secondary/20" },
   }[project.project_type as "case_study" | "shortlist" | "figma"] || {
     label: "Case Study",
     icon: BookOpen,
-    color: "text-blue-500 bg-blue-500/10 border-blue-500/20",
+    color: "text-primary bg-primary/10 border-primary/20",
   };
 
   const TypeIcon = typeConfig.icon;
 
+  // Actions
   const handleToggleVisibility = async () => {
     try {
       setIsTogglingVisibility(true);
       await toggleProjectVisibility(project.id, isVisible);
       router.refresh();
-    } catch (e: any) {
-      alert(e.message || "Failed to update visibility.");
+    } catch (err) {
+      console.error("Visibility toggle failed:", err);
     } finally {
       setIsTogglingVisibility(false);
     }
@@ -80,11 +81,14 @@ export default function AdminProjectCard({
     try {
       setIsCopying(true);
       setIsMenuOpen(false);
-      const copied = await copyProject(project.id);
+      const newProj = await copyProject(project.id);
       router.refresh();
-      router.push(`/admin/projects/${copied.id}`);
-    } catch (e: any) {
-      alert(e.message || "Failed to duplicate project.");
+      if (newProj?.id) {
+        router.push(`/admin/projects/${newProj.id}`);
+      }
+    } catch (err) {
+      console.error("Copy failed:", err);
+    } finally {
       setIsCopying(false);
     }
   };
@@ -96,22 +100,25 @@ export default function AdminProjectCard({
       const nextStatus = isArchived ? "draft" : "archived";
       await setProjectStatus(project.id, nextStatus);
       router.refresh();
-    } catch (e: any) {
-      alert(e.message || "Failed to update archive status.");
+    } catch (err) {
+      console.error("Archive status toggle failed:", err);
     } finally {
       setIsArchiving(false);
     }
   };
 
-  const handleDeleteConfirm = async () => {
+  const handleDelete = async () => {
     try {
       setIsDeleting(true);
       await deleteProject(project.id);
       setShowDeleteDialog(false);
-      if (onDeleted) onDeleted(project.id);
-      router.refresh();
-    } catch (e: any) {
-      alert(e.message || "Failed to delete project.");
+      if (onDeleted) {
+        onDeleted(project.id);
+      } else {
+        router.refresh();
+      }
+    } catch (err) {
+      console.error("Delete failed:", err);
     } finally {
       setIsDeleting(false);
     }
@@ -119,97 +126,111 @@ export default function AdminProjectCard({
 
   return (
     <>
-      <div className="glass-panel rounded-2xl overflow-hidden border border-border/80 hover:border-primary/40 transition-all flex flex-col bg-card/60 group shadow-sm hover:shadow-md">
-        {/* Thumbnail Preview */}
-        <div className="relative aspect-[16/10] bg-muted/40 overflow-hidden border-b border-border/50">
+      <div className="glass-panel rounded-2xl border border-border/80 bg-card/60 hover:bg-card hover:border-border transition-all duration-300 flex flex-col justify-between overflow-hidden group shadow-sm hover:shadow-md">
+        {/* Card Header & Thumbnail */}
+        <div className="relative aspect-video w-full bg-muted/50 border-b border-border/60 overflow-hidden flex items-center justify-center">
           {coverUrl ? (
             <Image
               src={coverUrl}
               alt={project.title}
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground p-4 text-center">
-              <TypeIcon size={32} className="text-primary/30 mb-1" />
-              <span className="text-xs font-mono text-muted-foreground/80">No image uploaded</span>
+            <div className="flex flex-col items-center gap-2 text-muted-foreground">
+              <FolderOpen size={32} className="opacity-40" />
+              <span className="text-xs">No cover image</span>
             </div>
           )}
 
-          {/* Project Type Badge */}
-          <div className="absolute top-3 left-3 z-10">
-            <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-md border shadow-sm ${typeConfig.color}`}>
+          {/* Top Overlays: Badges */}
+          <div className="absolute top-3 left-3 flex items-center gap-1.5 flex-wrap">
+            <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border backdrop-blur-md ${typeConfig.color}`}>
               <TypeIcon size={12} />
               <span>{typeConfig.label}</span>
             </span>
+
+            {project.featured && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-accent/90 text-white shadow-sm">
+                Featured
+              </span>
+            )}
           </div>
 
-          {/* Status Badge */}
-          <div className="absolute top-3 right-3 z-10">
+          <div className="absolute top-3 right-3">
             <StatusBadge status={project.status} />
           </div>
         </div>
 
-        {/* Card Content */}
+        {/* Card Body */}
         <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
           <div className="space-y-1.5">
-            {categoryName && (
-              <div className="flex items-center gap-1.5 text-xs text-primary font-medium">
-                <FolderOpen size={12} />
-                <span>{categoryName}</span>
-              </div>
-            )}
-            <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-1">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
+              <span>{categoryName || "Uncategorized"}</span>
+              {project.display_order !== undefined && (
+                <>
+                  <span>•</span>
+                  <span>Order: {project.display_order}</span>
+                </>
+              )}
+            </div>
+
+            <h3 className="font-bold text-foreground text-base line-clamp-1 group-hover:text-primary transition-colors">
               {project.title}
             </h3>
+
             <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
               {project.short_description || "No description provided."}
             </p>
           </div>
 
-          {/* Consistent Control Strip */}
+          {/* Action Row */}
           <div className="pt-3 border-t border-border/60 flex items-center justify-between gap-2">
-            {/* Visibility Toggle Button */}
+            {/* Quick Visibility Toggle */}
             <button
               type="button"
               onClick={handleToggleVisibility}
-              disabled={isTogglingVisibility}
-              title={isVisible ? "Currently Visible on Public Site (Click to Hide)" : "Currently Hidden/Draft (Click to Publish)"}
-              className={`p-2 rounded-xl border text-xs font-medium flex items-center gap-1.5 transition-all ${
+              disabled={isTogglingVisibility || isArchived}
+              title={isVisible ? "Unpublish (Set to Draft)" : "Publish Project"}
+              className={`p-2 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all ${
                 isVisible
-                  ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-500 hover:bg-emerald-500/20"
-                  : "bg-muted border-border text-muted-foreground hover:text-foreground"
-              }`}
+                  ? "bg-success/10 text-success border-success/20 hover:bg-success/20"
+                  : "bg-muted text-muted-foreground border-border hover:bg-muted/80 hover:text-foreground"
+              } disabled:opacity-50`}
             >
               {isTogglingVisibility ? (
-                <Loader2 size={15} className="animate-spin" />
+                <Loader2 size={14} className="animate-spin" />
               ) : isVisible ? (
-                <Eye size={15} />
+                <>
+                  <Eye size={14} />
+                  <span className="hidden sm:inline">Visible</span>
+                </>
               ) : (
-                <EyeOff size={15} />
+                <>
+                  <EyeOff size={14} />
+                  <span className="hidden sm:inline">Hidden</span>
+                </>
               )}
-              <span className="hidden sm:inline text-xs">{isVisible ? "Visible" : "Hidden"}</span>
             </button>
 
-            {/* Edit & More Controls */}
-            <div className="flex items-center gap-1 relative">
+            <div className="flex items-center gap-1.5">
+              {/* Primary Edit Button */}
               <Link
                 href={`/admin/projects/${project.id}`}
-                className="btn-base bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground p-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all"
-                title="Edit Project"
+                className="btn-base bg-primary text-primary-foreground hover:bg-primary/90 px-3.5 py-1.5 text-xs font-semibold rounded-xl flex items-center gap-1.5 shadow-sm transition-all"
               >
-                <Edit size={14} />
-                <span className="hidden sm:inline">Edit</span>
+                <Edit size={13} />
+                <span>Edit</span>
               </Link>
 
-              {/* More Menu (⋮) */}
+              {/* Overflow Action Menu */}
               <div className="relative">
                 <button
                   type="button"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted border border-transparent hover:border-border transition-colors"
-                  title="More actions"
+                  className="p-1.5 rounded-xl border border-border bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="More actions"
                 >
                   <MoreVertical size={16} />
                 </button>
@@ -220,24 +241,26 @@ export default function AdminProjectCard({
                       className="fixed inset-0 z-20"
                       onClick={() => setIsMenuOpen(false)}
                     />
-                    <div className="absolute right-0 bottom-full mb-1 w-44 rounded-xl bg-card border border-border shadow-xl p-1 z-30 animate-in zoom-in-95 duration-100">
+                    <div className="absolute right-0 bottom-full mb-2 w-48 bg-card border border-border rounded-xl shadow-xl p-1.5 z-30 space-y-1 animate-in fade-in zoom-in-95 duration-150">
                       <button
                         type="button"
                         onClick={handleCopy}
                         disabled={isCopying}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-foreground hover:bg-muted rounded-lg transition-colors text-left"
+                        className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-foreground hover:bg-muted rounded-lg transition-colors text-left"
                       >
                         {isCopying ? <Loader2 size={14} className="animate-spin" /> : <Copy size={14} />}
-                        <span>Copy Project</span>
+                        <span>Duplicate Project</span>
                       </button>
 
                       <button
                         type="button"
                         onClick={handleToggleArchive}
                         disabled={isArchiving}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-foreground hover:bg-muted rounded-lg transition-colors text-left"
+                        className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-foreground hover:bg-muted rounded-lg transition-colors text-left"
                       >
-                        {isArchived ? (
+                        {isArchiving ? (
+                          <Loader2 size={14} className="animate-spin" />
+                        ) : isArchived ? (
                           <>
                             <ArchiveRestore size={14} />
                             <span>Unarchive Project</span>
@@ -258,7 +281,7 @@ export default function AdminProjectCard({
                           setIsMenuOpen(false);
                           setShowDeleteDialog(true);
                         }}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 rounded-lg transition-colors text-left"
+                        className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-destructive hover:bg-destructive/10 rounded-lg transition-colors text-left"
                       >
                         <Trash2 size={14} />
                         <span>Delete Project</span>
@@ -272,15 +295,16 @@ export default function AdminProjectCard({
         </div>
       </div>
 
-      {/* Delete Confirmation Dialog */}
+      {/* Delete Confirmation Modal */}
       <ConfirmDialog
         isOpen={showDeleteDialog}
-        title="Delete Project?"
-        description={`Are you sure you want to permanently delete "${project.title}"? This action will remove all attached media records, video links, sections, and logs, and cannot be undone.`}
-        confirmLabel="Delete Project"
+        title="Delete Project"
+        description={`Are you sure you want to permanently delete "${project.title}"? All associated sections, media records, and references will be removed. This action cannot be undone.`}
+        confirmLabel="Delete Permanently"
+        cancelLabel="Cancel"
         isDestructive={true}
         isLoading={isDeleting}
-        onConfirm={handleDeleteConfirm}
+        onConfirm={handleDelete}
         onCancel={() => setShowDeleteDialog(false)}
       />
     </>

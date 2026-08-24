@@ -1,8 +1,8 @@
 "use client"
 
-import { UseFormReturn } from "react-hook-form"
-import { ProjectFormValues } from "@/lib/validators/project.schema"
-import { Building2, Users, Briefcase, FileText, Star, UserCircle2 } from "lucide-react"
+import { UseFormReturn } from "react-hook-form";
+import { ProjectFormValues } from "@/lib/validators/project.schema";
+import { Building2, Users, Briefcase, FileText, Star, UserCircle2 } from "lucide-react";
 
 export default function ProfessionalSignalsFields({ form }: { form: UseFormReturn<ProjectFormValues> }) {
   return (
@@ -81,5 +81,5 @@ export default function ProfessionalSignalsFields({ form }: { form: UseFormRetur
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,9 +1,9 @@
 import { createClient } from "@/lib/database/server";
 import PageHeader from "@/components/admin/PageHeader";
-import EmptyState from "@/components/admin/EmptyState";
+import EmptyState from "@/components/feedback/EmptyState";
 import Image from "next/image";
 import Link from "next/link";
-import { Image as ImageIcon, Video, File as FileIcon, ExternalLink, HardDrive } from "lucide-react";
+import { Image as ImageIcon, Video, File as FileIcon, ExternalLink } from "lucide-react";
 
 export default async function AdminMediaPage() {
   const supabase = await createClient();

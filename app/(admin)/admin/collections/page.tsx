@@ -1,6 +1,6 @@
 import { getCategories } from "@/lib/actions/taxonomy";
 import PageHeader from "@/components/admin/PageHeader";
-import CollectionsTreeView from "@/components/admin/CollectionsTreeView";
+import CollectionsTreeView from "@/components/collection/CollectionsTreeView";
 
 export default async function CollectionsPage() {
   const categories = await getCategories();

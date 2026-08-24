@@ -4,7 +4,7 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { Search, Plus, FolderKanban, FileEdit, CheckCircle2, Archive, Filter } from "lucide-react";
 import AdminProjectCard from "./AdminProjectCard";
-import EmptyState from "./EmptyState";
+import EmptyState from "@/components/feedback/EmptyState";
 
 interface ProjectsManagerViewProps {
   initialProjects: any[];

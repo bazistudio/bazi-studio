@@ -38,5 +38,5 @@ export default function TimelineFields({ form }: { form: UseFormReturn<ProjectFo
         </div>
       </div>
     </div>
-  )
+  );
 }

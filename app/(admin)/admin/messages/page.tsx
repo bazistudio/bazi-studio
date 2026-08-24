@@ -1,9 +1,8 @@
 import PageHeader from "@/components/admin/PageHeader";
-import EmptyState from "@/components/admin/EmptyState";
-import { MessageSquare, Inbox } from "lucide-react";
+import EmptyState from "@/components/feedback/EmptyState";
+import { Inbox } from "lucide-react";
 
 export default async function AdminMessagesPage() {
-  // Empty real messages inbox
   const messages: any[] = [];
 
   return (

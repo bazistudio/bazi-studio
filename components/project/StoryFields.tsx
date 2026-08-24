@@ -51,5 +51,5 @@ export default function StoryFields({ form }: { form: UseFormReturn<ProjectFormV
         </div>
       </div>
     </div>
-  )
+  );
 }

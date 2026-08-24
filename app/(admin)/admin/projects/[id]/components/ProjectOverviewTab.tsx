@@ -1,6 +1,6 @@
 "use client"
 
-import ProjectForm from "@/components/admin/project-editor/ProjectForm"
+import ProjectForm from "@/components/project/ProjectForm";
 
 export default function ProjectOverviewTab({ project }: { project: any }) {
   // Strip out nested relational data when passing to the form,
@@ -29,10 +29,10 @@ export default function ProjectOverviewTab({ project }: { project: any }) {
     role: project.role || "",
     team_size: project.team_size || "",
     client_name: project.client_name || "",
-    is_personal_project: !!project.is_personal_project,
+    is_personal_project: Boolean(project.is_personal_project),
     impact_summary: project.impact_summary || "",
     featured_reason: project.featured_reason || "",
-  }
+  };
 
   return (
     <div className="max-w-4xl space-y-6">
@@ -43,8 +43,8 @@ export default function ProjectOverviewTab({ project }: { project: any }) {
         </p>
       </div>
       
-      {/* We reuse the exact same ProjectForm we built in Step 2 */}
+      {/* Reusable ProjectForm */}
       <ProjectForm initialData={initialData} />
     </div>
-  )
+  );
 }

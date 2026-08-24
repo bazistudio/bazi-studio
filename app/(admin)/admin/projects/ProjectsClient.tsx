@@ -5,10 +5,9 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Plus, Edit, Trash2, CheckCircle, XCircle } from "lucide-react"
 import DataTable from "@/components/admin/DataTable"
-import StatusBadge from "@/components/admin/StatusBadge"
+import StatusBadge from "@/components/project/StatusBadge"
 import { deleteProject } from "@/lib/actions/projects"
 
-// Placeholder type until Supabase types are fully generated
 type ProjectRow = {
   id: string
   title: string
@@ -54,7 +53,7 @@ export default function ProjectsClient({ data }: { data: ProjectRow[] }) {
       header: "Featured",
       accessor: "featured" as keyof ProjectRow,
       cell: (item: ProjectRow) => (
-        item.featured ? <CheckCircle className="text-green-500 w-5 h-5" /> : <XCircle className="text-muted-foreground w-5 h-5" />
+        item.featured ? <CheckCircle className="text-success w-5 h-5" /> : <XCircle className="text-muted-foreground w-5 h-5" />
       )
     },
     {
@@ -88,7 +87,7 @@ export default function ProjectsClient({ data }: { data: ProjectRow[] }) {
 
   const emptyState = (
     <div className="py-8 flex flex-col items-center justify-center">
-      <p className="mb-4">No projects created yet.</p>
+      <p className="mb-4 text-muted-foreground">No projects created yet.</p>
       <Link href="/admin/projects/new" className="text-primary hover:underline font-medium">
         Create your first case study &rarr;
       </Link>

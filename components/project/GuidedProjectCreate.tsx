@@ -24,7 +24,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { createProject } from "@/lib/actions/projects";
-import ConfirmDialog from "../ConfirmDialog";
+import ConfirmDialog from "@/components/feedback/ConfirmDialog";
 
 type ProjectType = "case_study" | "shortlist" | "figma";
 
@@ -38,62 +38,63 @@ export default function GuidedProjectCreate({ categories = [] }: GuidedProjectCr
   // Step 1: Project Type Selection State
   const [selectedType, setSelectedType] = useState<ProjectType | null>(null);
 
-  // Form State
+  // Form Fields State
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const [featured, setFeatured] = useState(false);
-  const [displayOrder, setDisplayOrder] = useState<number>(0);
-
-  // Professional Signals
+  const [shortDesc, setShortDesc] = useState("");
+  const [fullDesc, setFullDesc] = useState("");
+  const [problem, setProblem] = useState("");
+  const [solution, setSolution] = useState("");
   const [role, setRole] = useState("");
   const [teamSize, setTeamSize] = useState("");
   const [clientName, setClientName] = useState("");
   const [isPersonal, setIsPersonal] = useState(false);
   const [impactSummary, setImpactSummary] = useState("");
   const [featuredReason, setFeaturedReason] = useState("");
-
-  // Content / Story
-  const [shortDesc, setShortDesc] = useState("");
-  const [fullDesc, setFullDesc] = useState("");
-  const [problem, setProblem] = useState("");
-  const [solution, setSolution] = useState("");
-
-  // External Links
   const [githubUrl, setGithubUrl] = useState("");
   const [demoUrl, setDemoUrl] = useState("");
   const [figmaUrl, setFigmaUrl] = useState("");
   const [figmaPrototypeUrl, setFigmaPrototypeUrl] = useState("");
   const [figmaCommunityUrl, setFigmaCommunityUrl] = useState("");
-
-  // Timeline
   const [startedAt, setStartedAt] = useState("");
   const [completedAt, setCompletedAt] = useState("");
   const [duration, setDuration] = useState("");
-
-  // Media / Cover URL
+  const [displayOrder, setDisplayOrder] = useState(0);
+  const [featured, setFeatured] = useState(false);
   const [coverImageUrl, setCoverImageUrl] = useState("");
 
-  // UI state
+  // UI / Submission States
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMode, setSubmitMode] = useState<"draft" | "published" | null>(null);
-  const [showCancelDialog, setShowCancelDialog] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
 
-  // Auto-slug generator
+  // Check dirty state for cancel dialog
+  const isDirty =
+    Boolean(title.trim()) ||
+    Boolean(slug.trim()) ||
+    Boolean(shortDesc.trim()) ||
+    Boolean(fullDesc.trim()) ||
+    Boolean(problem.trim()) ||
+    Boolean(solution.trim()) ||
+    Boolean(githubUrl.trim()) ||
+    Boolean(demoUrl.trim()) ||
+    Boolean(figmaUrl.trim()) ||
+    Boolean(figmaPrototypeUrl.trim()) ||
+    Boolean(coverImageUrl.trim());
+
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    setTitle(val);
-    if (!slug || slug.length < 2) {
-      const generatedSlug = val
+    const newTitle = e.target.value;
+    setTitle(newTitle);
+    if (!slug || slug.length < 3) {
+      const generated = newTitle
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)+/g, "");
-      setSlug(generatedSlug);
+      setSlug(generated);
     }
   };
-
-  const isDirty = Boolean(title || shortDesc || role || githubUrl || demoUrl || coverImageUrl);
 
   const handleCancelClick = () => {
     if (isDirty) {
@@ -104,48 +105,38 @@ export default function GuidedProjectCreate({ categories = [] }: GuidedProjectCr
   };
 
   const handleSave = async (status: "draft" | "published") => {
-    setFormError(null);
-
-    if (!selectedType) {
-      setFormError("Please select a project type.");
-      return;
-    }
-
-    if (!title.trim()) {
-      setFormError("Project Title is required.");
-      return;
-    }
-
-    const finalSlug = (slug || title)
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)+/g, "");
-
-    if (!finalSlug) {
-      setFormError("A valid project slug is required.");
-      return;
-    }
-
     try {
+      setFormError(null);
+
+      // Validation
+      if (!title.trim()) {
+        setFormError("Project title is required.");
+        return;
+      }
+      if (!slug.trim()) {
+        setFormError("Project slug is required.");
+        return;
+      }
+
       setIsSubmitting(true);
       setSubmitMode(status);
 
       const payload: any = {
         title: title.trim(),
-        slug: finalSlug,
-        project_type: selectedType,
+        slug: slug.trim(),
+        project_type: selectedType || "case_study",
         status: status,
-        featured: Boolean(featured),
-        display_order: Number(displayOrder) || 0,
-        category_id: categoryId || null,
+        featured: featured,
+        display_order: displayOrder,
+        category_id: categoryId ? categoryId : null,
         short_description: shortDesc.trim(),
         full_description: fullDesc.trim(),
-        problem: selectedType === "case_study" ? problem.trim() : "",
-        solution: selectedType === "case_study" ? solution.trim() : "",
+        problem: problem.trim(),
+        solution: solution.trim(),
         role: role.trim(),
         team_size: teamSize.trim(),
-        client_name: isPersonal ? "" : clientName.trim(),
-        is_personal_project: Boolean(isPersonal),
+        client_name: clientName.trim(),
+        is_personal_project: isPersonal,
         impact_summary: impactSummary.trim(),
         featured_reason: featuredReason.trim(),
         github_url: githubUrl.trim(),
@@ -159,11 +150,6 @@ export default function GuidedProjectCreate({ categories = [] }: GuidedProjectCr
       };
 
       const created = await createProject(payload);
-
-      // If cover image provided, save media record
-      if (coverImageUrl.trim() && created?.id) {
-        // Will be available in project media
-      }
 
       router.push(`/admin/projects/${created.id}`);
       router.refresh();
@@ -208,14 +194,14 @@ export default function GuidedProjectCreate({ categories = [] }: GuidedProjectCr
             {/* Card 1: Complete Case Study */}
             <div
               onClick={() => setSelectedType("case_study")}
-              className="glass-panel p-8 rounded-2xl border-2 border-border/80 hover:border-blue-500/80 bg-card/60 hover:bg-card hover:shadow-xl hover:shadow-blue-500/10 cursor-pointer transition-all duration-300 flex flex-col justify-between group"
+              className="glass-panel p-8 rounded-2xl border-2 border-border/80 hover:border-primary bg-card/60 hover:bg-card hover:shadow-xl hover:shadow-primary/10 cursor-pointer transition-all duration-300 flex flex-col justify-between group"
             >
               <div className="space-y-4">
-                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 text-blue-500 border border-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary border border-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <BookOpen size={28} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-foreground group-hover:text-blue-500 transition-colors">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
                     Complete Case Study
                   </h3>
                   <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
@@ -225,10 +211,10 @@ export default function GuidedProjectCreate({ categories = [] }: GuidedProjectCr
               </div>
 
               <div className="pt-6 mt-6 border-t border-border/50 flex items-center justify-between">
-                <span className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20">
+                <span className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
                   case_study
                 </span>
-                <span className="text-xs font-semibold text-blue-500 group-hover:translate-x-1 transition-transform">
+                <span className="text-xs font-semibold text-primary group-hover:translate-x-1 transition-transform">
                   Select &rarr;
                 </span>
               </div>
@@ -237,14 +223,14 @@ export default function GuidedProjectCreate({ categories = [] }: GuidedProjectCr
             {/* Card 2: Shortlisted Project */}
             <div
               onClick={() => setSelectedType("shortlist")}
-              className="glass-panel p-8 rounded-2xl border-2 border-border/80 hover:border-emerald-500/80 bg-card/60 hover:bg-card hover:shadow-xl hover:shadow-emerald-500/10 cursor-pointer transition-all duration-300 flex flex-col justify-between group"
+              className="glass-panel p-8 rounded-2xl border-2 border-border/80 hover:border-success bg-card/60 hover:bg-card hover:shadow-xl hover:shadow-success/10 cursor-pointer transition-all duration-300 flex flex-col justify-between group"
             >
               <div className="space-y-4">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-2xl bg-success/10 text-success border border-success/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Layers size={28} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-foreground group-hover:text-emerald-500 transition-colors">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-success transition-colors">
                     Shortlisted Project
                   </h3>
                   <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
@@ -254,10 +240,10 @@ export default function GuidedProjectCreate({ categories = [] }: GuidedProjectCr
               </div>
 
               <div className="pt-6 mt-6 border-t border-border/50 flex items-center justify-between">
-                <span className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                <span className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-success/10 text-success border border-success/20">
                   shortlist
                 </span>
-                <span className="text-xs font-semibold text-emerald-500 group-hover:translate-x-1 transition-transform">
+                <span className="text-xs font-semibold text-success group-hover:translate-x-1 transition-transform">
                   Select &rarr;
                 </span>
               </div>
@@ -266,14 +252,14 @@ export default function GuidedProjectCreate({ categories = [] }: GuidedProjectCr
             {/* Card 3: Figma Design Project */}
             <div
               onClick={() => setSelectedType("figma")}
-              className="glass-panel p-8 rounded-2xl border-2 border-border/80 hover:border-purple-500/80 bg-card/60 hover:bg-card hover:shadow-xl hover:shadow-purple-500/10 cursor-pointer transition-all duration-300 flex flex-col justify-between group"
+              className="glass-panel p-8 rounded-2xl border-2 border-border/80 hover:border-secondary bg-card/60 hover:bg-card hover:shadow-xl hover:shadow-secondary/10 cursor-pointer transition-all duration-300 flex flex-col justify-between group"
             >
               <div className="space-y-4">
-                <div className="w-14 h-14 rounded-2xl bg-purple-500/10 text-purple-500 border border-purple-500/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 rounded-2xl bg-secondary/10 text-secondary border border-secondary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Figma size={28} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-foreground group-hover:text-purple-500 transition-colors">
+                  <h3 className="text-lg font-bold text-foreground group-hover:text-secondary transition-colors">
                     Figma Design Project
                   </h3>
                   <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
@@ -283,10 +269,10 @@ export default function GuidedProjectCreate({ categories = [] }: GuidedProjectCr
               </div>
 
               <div className="pt-6 mt-6 border-t border-border/50 flex items-center justify-between">
-                <span className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-500 border border-purple-500/20">
+                <span className="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-full bg-secondary/10 text-secondary border border-secondary/20">
                   figma
                 </span>
-                <span className="text-xs font-semibold text-purple-500 group-hover:translate-x-1 transition-transform">
+                <span className="text-xs font-semibold text-secondary group-hover:translate-x-1 transition-transform">
                   Select &rarr;
                 </span>
               </div>
@@ -592,7 +578,7 @@ export default function GuidedProjectCreate({ categories = [] }: GuidedProjectCr
         {selectedType === "figma" && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-border/50">
             <div className="space-y-1.5 sm:col-span-2">
-              <label className="text-xs font-semibold text-purple-500 flex items-center gap-1.5">
+              <label className="text-xs font-semibold text-secondary flex items-center gap-1.5">
                 <Figma size={13} />
                 <span>Figma Prototype Embed URL</span>
               </label>
@@ -601,7 +587,7 @@ export default function GuidedProjectCreate({ categories = [] }: GuidedProjectCr
                 value={figmaPrototypeUrl}
                 onChange={(e) => setFigmaPrototypeUrl(e.target.value)}
                 placeholder="https://www.figma.com/proto/..."
-                className="w-full px-3.5 py-2.5 rounded-xl bg-background border border-purple-500/30 focus:border-purple-500 outline-none text-sm"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-background border border-secondary/30 focus:border-secondary outline-none text-sm"
               />
             </div>
 

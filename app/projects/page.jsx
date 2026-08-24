@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
-import ProjectCard from '../../components/ProjectCard';
+import ProjectCard from '@/components/portfolio/ProjectCard';
 import { 
   Filter, Grid, List, Eye, Calendar, Users, 
   Sparkles, Trophy, TrendingUp, Zap, Globe,

@@ -1,6 +1,6 @@
 import { getProjects } from "@/lib/actions/projects";
 import PageHeader from "@/components/admin/PageHeader";
-import ProjectsManagerView from "@/components/admin/ProjectsManagerView";
+import ProjectsManagerView from "@/components/project/ProjectsManagerView";
 
 export default async function ProjectsPage() {
   const projects = await getProjects();

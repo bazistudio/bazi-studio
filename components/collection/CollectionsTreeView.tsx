@@ -21,8 +21,8 @@ import {
   Loader2,
   Check,
 } from "lucide-react";
-import EmptyState from "./EmptyState";
-import ConfirmDialog from "./ConfirmDialog";
+import EmptyState from "@/components/feedback/EmptyState";
+import ConfirmDialog from "@/components/feedback/ConfirmDialog";
 import { createCategory, updateCategory, deleteCategory, reorderCategories } from "@/lib/actions/taxonomy";
 
 interface CollectionsTreeViewProps {
@@ -334,11 +334,11 @@ export default function CollectionsTreeView({
                         >
                           <div className="flex items-center gap-2 truncate">
                             {proj.project_type === "figma" ? (
-                              <Figma size={12} className="text-purple-500 shrink-0" />
+                              <Figma size={12} className="text-secondary shrink-0" />
                             ) : proj.project_type === "shortlist" ? (
-                              <Layers size={12} className="text-emerald-500 shrink-0" />
+                              <Layers size={12} className="text-success shrink-0" />
                             ) : (
-                              <BookOpen size={12} className="text-blue-500 shrink-0" />
+                              <BookOpen size={12} className="text-primary shrink-0" />
                             )}
                             <span className="truncate">{proj.title}</span>
                           </div>

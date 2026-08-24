@@ -1,8 +1,8 @@
 // app/layout.js
 import './globals.css';
 import { Inter } from 'next/font/google';
-import Navbar from '../components/shared/Navbar';
-import Footer from '../components/shared/Footer';
+import Navbar from '@/components/navigation/Navbar';
+import Footer from '@/components/navigation/Footer';
 
 // Simple font loading
 const inter = Inter({ 
@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="font-sans bg-background text-foreground">
-        {/* Simple Navbar */}
+        {/* Navigation Bar */}
         <Navbar />
         
         {/* Main content with proper spacing */}
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         
-        {/* Simple Footer */}
+        {/* Footer */}
         <Footer />
       </body>
     </html>
